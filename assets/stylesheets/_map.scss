@@ -1,0 +1,103 @@
+@mixin building($size, $color) {
+  width: 20px * $size;
+  height: 20px * $size;
+  background: $color;
+}
+
+$map-width: 800px;
+
+.map {
+  position: relative;
+  top: -100px;
+  width: $map-width;
+  height: $map-width;
+  margin: 0 auto;
+  background: tint(green, 40%);
+  @include transform-style(preserve-3d);
+  @include transform(rotateX(50deg) rotateZ(-45deg));
+
+  // &:before {
+  //   content: '';
+  //   position: absolute;
+  //   top: 30px;
+  //   left: 30px;
+  //   bottom: 30px;
+  //   right: 30px;
+  //   background: rgba(0,0,0,.5);
+  //   box-shadow: 0 0 30px 30px rgba(0,0,0,.5);
+  //   @include transform(translateZ(-20px));
+  //   pointer-events: none;
+  // }
+}
+
+.cell {
+  float: left;
+  width: percentage(1/40);
+  height: percentage(1/40);
+  box-shadow: 0 0 1px 1px rgba(255,255,255,.2) inset;
+
+  &:hover {
+    background: rgba(255,255,255,.2);
+  }
+}
+
+
+
+// .grid {
+//   position: absolute;
+//   left: 50%;
+//   width: 800px;
+//   height: 800px;
+//   margin: 0 0 0 -400px;
+//   background: green;
+//   @include transform(rotateX(60deg) rotateZ(-45deg));
+//   @include transform-style(preserve-3d);
+
+//   // &:before,
+//   // &:after {
+//   //   content: '';
+//   //   position: absolute;
+//   //   top: 0;
+//   //   left: 0;
+//   //   right: 0;
+//   //   bottom: 0;
+//   //   background: shade(green, 10%);
+//   // }
+
+//   // &:before {
+//   //   @include transform-origin(left center);
+//   //   @include transform(rotateY(90deg));
+//   //   width: 5px;
+//   // }
+
+//   // &:after {
+//   //   @include transform-origin(bottom center);
+//   //   @include transform(rotateX(90deg));
+//   //   height: 5px;
+//   //   top: auto;
+//   //   bottom: 0;
+//   // }
+
+//   span {
+//     float: left;
+//     width: 20px;
+//     height: 20px;
+//     box-shadow: 0 0 2px rgba(255,255,255,.2) inset;
+
+//     &.on {
+//       background: rgba(255,255,255,.2);
+//     }
+//   }
+// }
+
+// .building {
+//   float: none;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   @include transform(rotateX(60deg) rotateZ(-45deg));
+// }
+
+// .town-hall {
+//   @include building(4, blue);
+// }

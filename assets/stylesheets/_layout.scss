@@ -1,0 +1,39 @@
+$header-height: 60px;
+
+* {
+  margin: 0;
+  padding: 0;
+  @include box-sizing(border-box);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: shade(white, 5%);
+}
+
+header {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0 20px;
+  background: shade(white, 20%);
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 30px;
+  line-height: $header-height;
+}
+
+.viewport {
+  position: relative;
+  min-height: 100%;
+  padding: ($header-height + 40px) 160px 40px;
+  @include perspective(3000px);
+}

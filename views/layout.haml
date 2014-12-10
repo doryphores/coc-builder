@@ -1,0 +1,14 @@
+!!!
+%html
+  %head
+    %meta(charset='utf-8')
+    %title COC Builder
+    = stylesheet_tag 'app'
+  %body
+    %header
+      %h1 Clash of Clans Base Builder
+
+    .viewport
+      = yield
+
+    / = javascript_tag 'app'
