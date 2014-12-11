@@ -10,8 +10,8 @@ $map-width: 800px;
   @include transition(all 1s);
 
   .view-mode & {
-    @include transform(translateY(-100px) rotateX(50deg) rotateZ(45deg));
-    box-shadow: 20px 20px 30px rgba(0,0,0,.5);
+    @include transform(translateY(-100px) rotateX(50deg) rotateZ(-45deg));
+    box-shadow: -20px 20px 30px rgba(0,0,0,.5);
   }
 }
 
@@ -20,8 +20,5 @@ $map-width: 800px;
   width: percentage(1/40);
   height: percentage(1/40);
   box-shadow: 0 0 1px 1px rgba(255,255,255,.2) inset;
-
-  &:hover {
-    background: rgba(255,255,255,.2);
-  }
+  pointer-events: none;
 }
