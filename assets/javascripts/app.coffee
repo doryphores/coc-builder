@@ -33,8 +33,8 @@ map.addEventListener 'drop', (e) ->
 
   building = document.getElementById(e.dataTransfer.getData('Text'))
 
-  building.style.top = (e.layerY - offset.y) + 'px'
-  building.style.left = (e.layerX - offset.x) + 'px'
+  building.style.top = (Math.round((e.layerY - offset.y) / 20) * 20) + 'px'
+  building.style.left = (Math.round((e.layerX - offset.x) / 20) * 20) + 'px'
 
   map.appendChild(building)
 
