@@ -1,0 +1,13 @@
+.sidebar
+  %h2 Buildings
+
+  %h3 Resources
+
+  .panel
+    - 6.times do |i|
+      %span.building.gold-mine(draggable='true' id="gold-mine-#{i}")
+        Gold mine
+
+    - 6.times do |i|
+      %span.building.elixir-extractor(draggable='true' id="elixir-extractor-#{i}")
+        Elixir extractor

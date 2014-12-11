@@ -1,16 +1,4 @@
-@mixin building($size, $color) {
-  width: 20px * $size;
-  height: 20px * $size;
-  background: $color;
-}
-
 $map-width: 800px;
-
-button.transform {
-  position: absolute;
-  right: 20px;
-  top: 80px;
-}
 
 .map {
   position: relative;
@@ -21,7 +9,7 @@ button.transform {
   @include transform-style(preserve-3d);
   @include transition(all 1s);
 
-  &.isometric {
+  .view-mode & {
     @include transform(translateY(-100px) rotateX(50deg) rotateZ(45deg));
     box-shadow: 20px 20px 30px rgba(0,0,0,.5);
   }
@@ -36,13 +24,4 @@ button.transform {
   &:hover {
     background: rgba(255,255,255,.2);
   }
-}
-
-.building {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: percentage(4/40);
-  height: percentage(4/40);
-  background: transparentize(blue, .5);
 }

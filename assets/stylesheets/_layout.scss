@@ -1,4 +1,5 @@
 $header-height: 60px;
+$sidebar-width: 300px;
 
 * {
   margin: 0;
@@ -23,6 +24,12 @@ header {
   right: 0;
   padding: 0 20px;
   background: shade(white, 20%);
+
+  button {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+  }
 }
 
 h1 {
@@ -34,6 +41,27 @@ h1 {
 .viewport {
   position: relative;
   min-height: 100%;
-  padding: ($header-height + 40px) 20px 40px;
+  padding: ($header-height + 20px) 20px 20px 20px;
+  margin-right: $sidebar-width;
   @include perspective(3000px);
+  @include transition(margin-right .6s);
+
+  .view-mode & {
+    margin-right: 0;
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: $header-height;
+  right: 0;
+  bottom: 0;
+  width: $sidebar-width;
+  padding: 20px;
+  background: shade(white, 10%);
+  @include transition(transform .6s);
+
+  .view-mode & {
+    @include transform(translateX($sidebar-width));
+  }
 }

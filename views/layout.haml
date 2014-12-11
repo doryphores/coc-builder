@@ -7,8 +7,11 @@
   %body
     %header
       %h1 Clash of Clans Base Builder
+      %button.toggle-mode Toggle mode
 
     .viewport
       = yield
+
+    = haml :'sidebar'
 
     = javascript_tag 'app'
