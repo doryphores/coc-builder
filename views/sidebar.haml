@@ -4,10 +4,33 @@
   %h3 Resources
 
   .panel
+    - 2.times do |i|
+      %span.building.gold-storage(draggable='true' id="gold-storage-#{i}")
+        Gold storage
+
     - 6.times do |i|
       %span.building.gold-mine(draggable='true' id="gold-mine-#{i}")
         Gold mine
 
+    - 2.times do |i|
+      %span.building.elixir-storage(draggable='true' id="elixir-storage-#{i}")
+        Elixir storage
+
     - 6.times do |i|
       %span.building.elixir-extractor(draggable='true' id="elixir-extractor-#{i}")
         Elixir extractor
+
+    - 1.times do |i|
+      %span.building.dark-elixir-storage(draggable='true' id="dark-elixir-storage-#{i}")
+        Dark elixir storage
+
+    - 1.times do |i|
+      %span.building.dark-elixir-extractor(draggable='true' id="dark-elixir-extractor-#{i}")
+        Dark elixir extractor
+
+  %h3 Army
+
+  .panel
+    - 4.times do |i|
+      %span.building.army-camp(draggable='true' id="army-camp-#{i}")
+        Army camp

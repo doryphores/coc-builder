@@ -5,5 +5,12 @@
 
   h3 {
     border-bottom: 1px solid tint(black, 70%);
+    margin-bottom: 1em;
+    clear: both;
+  }
+
+  .panel {
+    overflow: hidden;
+    margin-bottom: 1em;
   }
 }
