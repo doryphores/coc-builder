@@ -17,7 +17,6 @@
     z-index: 3;
 
     &.dragging {
-      pointer-events: none;
       z-index: 1;
     }
   }

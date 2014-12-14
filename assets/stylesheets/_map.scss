@@ -5,6 +5,7 @@ $map-width: 800px;
   width: $map-width;
   height: $map-width;
   margin: 0 auto;
+  @include transition(all .4s .4s);
 
   .grid {
     pointer-events: none;
@@ -20,14 +21,12 @@ $map-width: 800px;
       linear-gradient(to left, rgba(255,255,255,.2) 5%, transparent 5%, transparent 95%, rgba(255,255,255,.2) 95%),
       linear-gradient(to top, rgba(255,255,255,.2) 5%, transparent 5%, transparent 95%, rgba(255,255,255,.2) 95%)
     );
+  }
 
-    @include transition(all .4s .4s);
-
-    .view-mode & {
-      @include transform-style(preserve-3d);
-      @include transform(translateY(-100px) rotateX(50deg) rotateZ(-45deg));
-      box-shadow: -20px 20px 30px rgba(0,0,0,.5);
-    }
+  .view-mode & {
+    @include transform-style(preserve-3d);
+    @include transform(translateY(-100px) rotateX(50deg) rotateZ(-45deg));
+    box-shadow: -20px 20px 30px rgba(0,0,0,.5);
   }
 
   span {
@@ -39,10 +38,20 @@ $map-width: 800px;
     pointer-events: none;
     display: none;
     z-index: 2;
-    background-color: transparentize(green, .5);
+    background-color: transparentize(red, .5);
+
+    &.available {
+      background-color: transparentize(green, .5);
+    }
   }
 
-  &.active .placeholder {
-    display: block;
+  &.active {
+    .placeholder {
+      display: block;
+    }
+
+    .marker {
+      pointer-events: none;
+    }
   }
 }
