@@ -1,11 +1,9 @@
-@mixin building($size, $color) {
-  width: $size*20px;
-  height: $size*20px;
+@mixin building($color) {
   background: transparentize($color, .5);
   color: invert($color);
 }
 
-.building {
+.marker {
   position: relative;
   float: left;
   padding: 5px;
@@ -16,37 +14,43 @@
   cursor: default;
 
   .map & {
-    position: absolute;
-    top: 0;
-    left: 0;
+    z-index: 3;
+
+    &.dragging {
+      pointer-events: none;
+      z-index: 1;
+    }
   }
 
-  &.is-dragging {
-    cursor: grabbing;
+  @for $size from 1 through 5 {
+    &[data-size="#{$size}"] {
+      width: $size * 20px;
+      height: $size * 20px;
+    }
   }
 
   &.gold-mine {
-    @include building(3, shade(yellow, 10%));
+    @include building(shade(yellow, 10%));
   }
 
   &.gold-storage {
-    @include building(3, shade(yellow, 20%));
+    @include building(shade(yellow, 20%));
   }
 
   &.elixir-extractor {
-    @include building(3, shade(blue, 10%));
+    @include building(shade(blue, 10%));
   }
 
   &.elixir-storage {
-    @include building(3, shade(blue, 30%));
+    @include building(shade(blue, 30%));
   }
 
   &.dark-elixir-extractor,
   &.dark-elixir-storage {
-    @include building(3, black);
+    @include building(black);
   }
 
   &.army-camp {
-    @include building(5, shade(green, 40%));
+    @include building(shade(green, 40%));
   }
 }

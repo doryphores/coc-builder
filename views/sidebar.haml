@@ -5,32 +5,32 @@
 
   .panel
     - 2.times do |i|
-      %span.building.gold-storage(draggable='true' id="gold-storage-#{i}")
+      %span.marker.gold-storage(draggable='true' id="gold-storage-#{i}" data-size='3')
         Gold storage
 
     - 6.times do |i|
-      %span.building.gold-mine(draggable='true' id="gold-mine-#{i}")
+      %span.marker.gold-mine(draggable='true' id="gold-mine-#{i}" data-size='3')
         Gold mine
 
     - 2.times do |i|
-      %span.building.elixir-storage(draggable='true' id="elixir-storage-#{i}")
+      %span.marker.elixir-storage(draggable='true' id="elixir-storage-#{i}" data-size='3')
         Elixir storage
 
     - 6.times do |i|
-      %span.building.elixir-extractor(draggable='true' id="elixir-extractor-#{i}")
+      %span.marker.elixir-extractor(draggable='true' id="elixir-extractor-#{i}" data-size='3')
         Elixir extractor
 
     - 1.times do |i|
-      %span.building.dark-elixir-storage(draggable='true' id="dark-elixir-storage-#{i}")
+      %span.marker.dark-elixir-storage(draggable='true' id="dark-elixir-storage-#{i}" data-size='3')
         Dark elixir storage
 
     - 1.times do |i|
-      %span.building.dark-elixir-extractor(draggable='true' id="dark-elixir-extractor-#{i}")
+      %span.marker.dark-elixir-extractor(draggable='true' id="dark-elixir-extractor-#{i}" data-size='3')
         Dark elixir extractor
 
   %h3 Army
 
   .panel
     - 4.times do |i|
-      %span.building.army-camp(draggable='true' id="army-camp-#{i}")
+      %span.marker.army-camp(draggable='true' id="army-camp-#{i}" data-size='5')
         Army camp
