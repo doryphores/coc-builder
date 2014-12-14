@@ -5,20 +5,19 @@ $map-width: 800px;
   width: $map-width;
   height: $map-width;
   margin: 0 auto;
-  background: tint(green, 40%);
-  @include transform-style(preserve-3d);
-  @include transition(all 1s);
+
+  background-color: tint(green, 40%);
+  background-size: percentage(1/40) percentage(1/40);
+  @include background-image(
+    linear-gradient(to left, rgba(255,255,255,.2) 5%, transparent 5%, transparent 95%, rgba(255,255,255,.2) 95%),
+    linear-gradient(to top, rgba(255,255,255,.2) 5%, transparent 5%, transparent 95%, rgba(255,255,255,.2) 95%)
+  );
+
+  @include transition(all .4s .4s);
 
   .view-mode & {
+    @include transform-style(preserve-3d);
     @include transform(translateY(-100px) rotateX(50deg) rotateZ(-45deg));
     box-shadow: -20px 20px 30px rgba(0,0,0,.5);
   }
-}
-
-.cell {
-  float: left;
-  width: percentage(1/40);
-  height: percentage(1/40);
-  box-shadow: 0 0 1px 1px rgba(255,255,255,.2) inset;
-  pointer-events: none;
 }
