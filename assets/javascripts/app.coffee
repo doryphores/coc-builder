@@ -1,5 +1,3 @@
-#= require draggabilly.pkgd.js
-
 map = document.querySelector('.map')
 
 edit_mode = true
@@ -7,20 +5,15 @@ edit_mode = true
 document.querySelector('button.toggle-mode').addEventListener 'click', ->
   document.body.classList.toggle 'view-mode'
   edit_mode = !edit_mode
-  # if edit_mode
-  #   draggie.enable()
-  # else
-  #   draggie.disable()
 
 offset = {}
 
-for el in document.querySelectorAll('.sidebar .building')
-  el.addEventListener 'dragstart', (e) ->
-    e.dataTransfer.effectAllowed = 'copy'
-    e.dataTransfer.setData('Text', this.id)
-    offset =
-      x: e.layerX
-      y: e.layerY
+document.querySelector('.sidebar').addEventListener 'dragstart', (e) ->
+  e.dataTransfer.effectAllowed = 'copy'
+  e.dataTransfer.setData('Text', e.target.id)
+  offset =
+    x: e.layerX
+    y: e.layerY
 
 map.addEventListener 'dragover', (e) ->
   e.preventDefault()
@@ -38,8 +31,14 @@ map.addEventListener 'drop', (e) ->
 
   map.appendChild(building)
 
-  new Draggabilly building,
-    containment: true
-    grid: [20, 20]
-
   return false
+
+map.addEventListener 'dragstart', (e) ->
+  if edit_mode
+    e.dataTransfer.effectAllowed = 'copy'
+    e.dataTransfer.setData('Text', e.target.id)
+    offset =
+      x: e.layerX
+      y: e.layerY
+  else
+    e.preventDefault()
