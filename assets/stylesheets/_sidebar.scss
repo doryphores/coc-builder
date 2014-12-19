@@ -1,16 +1,27 @@
 .sidebar {
-  h2 {
-    margin-bottom: 1em;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  height: $sidebar-height;
+  padding: 10px;
+  @include transition(bottom .4s);
+
+  .view-mode & {
+    bottom: - $sidebar-height;
   }
 
-  h3 {
-    border-bottom: 1px solid tint(black, 70%);
-    margin-bottom: 1em;
-    clear: both;
+  ul {
+    list-style: none;
+    white-space: nowrap;
   }
 
-  .panel {
-    overflow: hidden;
-    margin-bottom: 1em;
+  .building {
+    display: inline-block;
+    width: $sidebar-height - 20px;
+    height: $sidebar-height - 20px;
+    vertical-align: top;
+    white-space: normal;
   }
 }

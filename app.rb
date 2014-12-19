@@ -1,5 +1,6 @@
 Bundler.require
 
+require 'yaml'
 require 'sinatra/asset_pipeline'
 
 class App < Sinatra::Base
@@ -13,10 +14,7 @@ class App < Sinatra::Base
   end
 
   get '/' do
-    haml :index
-  end
-
-  get '/cube' do
-    haml :cube
+    @buildings = YAML.load_file(File.join(settings.root, 'data', 'buildings.yml'))
+    haml :map
   end
 end

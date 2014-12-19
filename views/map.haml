@@ -1,0 +1,8 @@
+.map
+  .grid
+
+.sidebar
+  %ul
+    - @buildings.each do |k, building|
+      %li.building.gold-mine{data: {size: building['size'], count: building['count']}, class: k.sub('_', '-')}
+        = building['description']

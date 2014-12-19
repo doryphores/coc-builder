@@ -3,22 +3,25 @@
   color: invert($color);
 }
 
-.marker {
+.building {
   position: relative;
-  float: left;
   padding: 5px;
   box-shadow: 0 0 1px 1px rgba(255,255,255,.2) inset;
   font-size: 12px;
   line-height: 14px;
   text-align: center;
-  cursor: default;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  @include user-select(none);
 
-  .map & {
-    z-index: 3;
+  &.is-dragging {
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+    z-index: 2;
+  }
 
-    &.dragging {
-      z-index: 1;
-    }
+  .view-mode & {
+    cursor: default;
   }
 
   @for $size from 1 through 5 {
@@ -26,6 +29,26 @@
       width: $size * 20px;
       height: $size * 20px;
     }
+  }
+
+  &[data-count='0'] {
+    display: none;
+  }
+
+  &:after {
+    content: 'x' attr(data-count);
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    min-width: 20px;
+    padding: 0 2px;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;
   }
 
   &.gold-mine {
@@ -51,5 +74,13 @@
 
   &.army-camp {
     @include building(shade(green, 40%));
+  }
+
+  &.ok {
+    background: green;
+  }
+
+  &.notok {
+    background: red;
   }
 }

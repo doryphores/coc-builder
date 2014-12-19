@@ -6,12 +6,9 @@
     = stylesheet_tag 'app'
   %body
     %header
-      %h1 Clash of Clans Base Builder
-      %button.toggle-mode Toggle mode
+      %h1 Clash of Clans base builder
+      %button.switch-mode Toggle mode
 
-    .viewport
-      = yield
-
-    = haml :'sidebar'
+    = yield
 
     = javascript_tag 'app'

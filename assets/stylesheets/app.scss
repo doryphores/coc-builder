@@ -1,8 +1,13 @@
 @import 'bourbon';
 
+$header-height  : 60px;
+$sidebar-height : 80px;
+$map-width      : 800px;
+$grid-square    : 20px;
+
 @import "typography";
 @import "layout";
-@import "sidebar";
-
-@import "map";
+@import "header";
 @import "buildings";
+@import "sidebar";
+@import "map";
