@@ -4,13 +4,8 @@
   left: 0;
   right: 0;
   overflow: auto;
-  height: $sidebar-height;
   padding: 10px;
   @include transition(bottom .4s);
-
-  .view-mode & {
-    bottom: - $sidebar-height;
-  }
 
   ul {
     list-style: none;
@@ -19,8 +14,8 @@
 
   .building {
     display: inline-block;
-    width: $sidebar-height - 20px;
-    height: $sidebar-height - 20px;
+    width: 60px;
+    height: 60px;
     vertical-align: top;
     white-space: normal;
   }

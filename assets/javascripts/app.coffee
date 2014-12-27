@@ -32,7 +32,6 @@ class BaseMap
     @buildings = []
     @dragging = false
     @gridOffsets = @offset(@grid)
-    @mapOffsets = @offset(@element)
     @editMode = true
 
     @sidebar.addEventListener 'mousedown', (e) =>
@@ -80,14 +79,10 @@ class BaseMap
     b.setIndex(i) for b, i in @buildings
 
   positionBuilding: (x, y) ->
+    {x, y} = @grid.convertPointFromNode({x: x, y: y}, document)
+
     x = x - @grabOffset.left
     y = y - @grabOffset.top
-
-    x = Math.min(Math.max(x, @mapOffsets.left), @mapOffsets.left + @mapOffsets.width - @activeBuilding.size)
-    y = Math.min(Math.max(y, @mapOffsets.top), @mapOffsets.top + @mapOffsets.height - @activeBuilding.size)
-
-    x = x - @gridOffsets.left
-    y = y - @gridOffsets.top
 
     snapped = for v in [x, y]
       Math.round(v / BaseMap.snap) * BaseMap.snap
@@ -125,10 +120,10 @@ class BaseMap
     @activeBuilding = null
 
   setGrabOffset: (e) ->
-    offset = @offset(e.target)
+    {x, y} = e.target.convertPointFromNode({x: e.clientX, y: e.clientY}, document)
     @grabOffset =
-      left: e.clientX - offset.left
-      top : e.clientY - offset.top
+      left: x
+      top : y
 
   offset: (element) ->
     x = element.offsetLeft
@@ -148,4 +143,4 @@ baseMap = new BaseMap(document.querySelector('.map'))
 
 document.querySelector('.switch-mode').addEventListener 'click', ->
   document.body.classList.toggle('view-mode')
-  baseMap.toggleEditMode()
+  # baseMap.toggleEditMode()

@@ -31,7 +31,7 @@
     }
   }
 
-  &[data-count='0'] {
+  &.building[data-count='0'] {
     display: none;
   }
 
