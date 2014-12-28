@@ -3,6 +3,35 @@
 $header-height  : 60px;
 $map-width      : 800px;
 $grid-square    : 20px;
+$buildings      : (
+  town_hall,
+  builder_hut,
+  gold_mine,
+  elixir_extractor,
+  dark_elixir_extractor,
+  gold_storage,
+  elixir_storage,
+  dark_elixir_storage,
+  army_camp,
+  barracks,
+  dark_barracks,
+  spell_factory,
+  laboratory,
+  barbarian_king,
+  wall,
+  cannon,
+  archer_tower,
+  mortar,
+  air_defense,
+  wizard_tower,
+  bomb,
+  spring_trap,
+  air_bomb,
+  giant_bomb,
+  seeking_air_bomb,
+  hidden_tesla,
+  skeleton_trap
+);
 
 @import "typography";
 @import "layout";

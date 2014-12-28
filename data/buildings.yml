@@ -1,145 +1,139 @@
 town_hall:
-  description: 'Town hall'
+  description: "Town hall"
   size: 4
   type: null
   count: 1
 
-builders_hut:
-  description: "builder's hut"
+builder_hut:
+  description: "Builder's hut"
   size: 2
   type: "resource"
   count: 4
-
 gold_mine:
-  description: "gold mine"
+  description: "Gold mine"
   size: 3
   type: "resource"
   count: 6
-
 elixir_extractor:
-  description: "elixir extractor"
+  description: "Elixir extractor"
   size: 3
   type: "resource"
   count: 6
-
 dark_elixir_extractor:
-  description: "dark elixir extractor"
+  description: "Dark elixir extractor"
   size: 3
   type: "resource"
   count: 1
-
 gold_storage:
-  description: "gold storage"
+  description: "Gold storage"
   size: 3
   type: "resource"
   count: 2
-
 elixir_storage:
-  description: "elixir storage"
+  description: "Elixir storage"
   size: 3
   type: "resource"
   count: 2
-
 dark_elixir_storage:
-  description: "dark elixir storage"
+  description: "Dark elixir storage"
   size: 3
   type: "resource"
   count: 1
 
 army_camp:
-  description: "army camp"
+  description: "Army camp"
   size: 5
   type: "army"
   count: 4
 barracks:
-  description: "barracks"
+  description: "Barracks"
   size: 3
   type: "army"
   count: 4
 dark_barracks:
-  description: "dark barracks"
+  description: "Dark barracks"
   size: 3
   type: "army"
   count: 1
 spell_factory:
-  description: "spell factory"
+  description: "Spell factory"
   size: 3
   type: "army"
   count: 1
 laboratory:
-  description: "laboratory"
+  description: "Laboratory"
   size: 4
   type: "army"
   count: 1
 barbarian_king:
-  description: "barbarian king"
+  description: "Barbarian king"
   size: 3
   type: "army"
   count: 1
 
 wall:
-  description: "wall"
+  description: "Wall"
   size: 1
   type: "defense"
   count: 225
 cannon:
-  description: "cannon"
+  description: "Cannon"
   size: 3
   type: "defense"
   count: 5
 archer_tower:
-  description: "archer tower"
+  description: "Archer tower"
   size: 3
   type: "defense"
   count: 5
 mortar:
-  description: "mortar"
+  description: "Mortar"
   size: 3
   type: "defense"
   count: 4
 air_defense:
-  description: "air defense"
+  description: "Air defense"
   size: 3
   type: "defense"
   count: 3
 wizard_tower:
-  description: "wizard tower"
+  description: "Wizard tower"
   size: 3
   type: "defense"
   count: 3
 
 bomb:
-  description: "bomb"
+  description: "Bomb"
   size: 1
   type: "trap"
   count: 6
 spring_trap:
-  description: "spring trap"
+  description: "Spring trap"
   size: 6
   type: "trap"
   count: 2
 air_bomb:
-  description: "air bomb"
+  description: "Air bomb"
   size: 4
   type: "trap"
   count: 2
 giant_bomb:
-  description: "giant bomb"
+  description: "Giant bomb"
   size: 1
   type: "trap"
   count: 3
 seeking_air_bomb:
-  description: "seeking air bomb"
+  description: "Seeking air bomb"
   size: 1
   type: "trap"
   count: 2
 hidden_tesla:
-  description: "hidden tesla"
+  description: "Hidden tesla"
   size: 3
   type: "trap"
   count: 2
 skeleton_trap  :
-  description: "skeleton trap"
+  description: "Skeleton trap"
   size: 1
   type: "trap"
   count: 2

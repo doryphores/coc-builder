@@ -1,27 +1,19 @@
-@mixin building($color) {
-  background: transparentize($color, .5);
-  color: invert($color);
-}
-
 .building {
   position: relative;
   padding: 5px;
-  box-shadow: 0 0 1px 1px rgba(255,255,255,.2) inset;
+  box-shadow: 0 0 2px 0 rgba(0,0,0,.2) inset;
   font-size: 12px;
   line-height: 14px;
   text-align: center;
   cursor: -moz-grab;
   cursor: -webkit-grab;
   @include user-select(none);
+  overflow: hidden;
 
   &.is-dragging {
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
     z-index: 2;
-  }
-
-  .view-mode & {
-    cursor: default;
   }
 
   @for $size from 1 through 5 {
@@ -49,38 +41,22 @@
     font-weight: 600;
     line-height: 20px;
     text-align: center;
+    text-indent: 0;
   }
 
-  &.gold-mine {
-    @include building(shade(yellow, 10%));
-  }
-
-  &.gold-storage {
-    @include building(shade(yellow, 20%));
-  }
-
-  &.elixir-extractor {
-    @include building(shade(blue, 10%));
-  }
-
-  &.elixir-storage {
-    @include building(shade(blue, 30%));
-  }
-
-  &.dark-elixir-extractor,
-  &.dark-elixir-storage {
-    @include building(black);
-  }
-
-  &.army-camp {
-    @include building(shade(green, 40%));
+  @each $building in $buildings {
+    &.#{$building} {
+      background-image: asset-url("#{$building}.png"), asset-url("grass_building.png");
+      background-size: cover, auto;
+      text-indent: -999px;
+    }
   }
 
   &.ok {
-    background: green;
+    background-color: tint(green, 10%);
   }
 
   &.notok {
-    background: red;
+    background-color: tint(red, 10%);
   }
 }

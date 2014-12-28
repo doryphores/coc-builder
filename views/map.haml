@@ -3,6 +3,6 @@
 
 .sidebar
   %ul
-    - @buildings.each do |k, building|
-      %li.building.gold-mine{data: {size: building['size'], count: building['count']}, class: k.sub('_', '-')}
+    - @buildings.each do |key, building|
+      %li.building{data: {size: building['size'], count: building['count']}, class: key}
         = building['description']
