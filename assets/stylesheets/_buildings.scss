@@ -1,9 +1,12 @@
 .building {
   position: relative;
-  padding: 5px;
+  padding: 4px 2px;
   box-shadow: 0 0 2px 0 rgba(0,0,0,.2) inset;
-  font-size: 12px;
-  line-height: 14px;
+  color: black;
+  text-shadow: 0 0 1px white;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 12px;
   text-align: center;
   cursor: -moz-grab;
   cursor: -webkit-grab;
@@ -32,14 +35,14 @@
     position: absolute;
     right: 4px;
     bottom: 4px;
-    min-width: 20px;
-    padding: 0 2px;
+    min-width: 10px;
+    padding: 0 4px;
     background-color: black;
     color: white;
     border-radius: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 20px;
+    font-size: 10px;
+    line-height: 18px;
+    text-shadow: none;
     text-align: center;
     text-indent: 0;
   }
@@ -48,7 +51,6 @@
     &.#{$building} {
       background-image: asset-url("#{$building}.png"), asset-url("grass_building.png");
       background-size: cover, auto;
-      text-indent: -999px;
     }
   }
 

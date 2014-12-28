@@ -42,6 +42,7 @@ $map-width: 800px;
 
   .building {
     position: absolute;
+    text-indent: -999px;
 
     &:after {
       display: none;
