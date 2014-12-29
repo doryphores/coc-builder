@@ -3,7 +3,7 @@ $map-width: 800px;
 .map {
   min-height: 100%;
   padding: ($header-height + 40px) 40px 120px 40px;
-  background-image: asset-url("grass.png");
+  background-image: url("../images/grass.png");
   background-color: tint(green, 40%);
   @include perspective(3000px);
 }
@@ -46,6 +46,10 @@ $map-width: 800px;
 
     &:after {
       display: none;
+    }
+
+    .view-mode &:before {
+      @include transform(rotateZ(45deg));
     }
   }
 }

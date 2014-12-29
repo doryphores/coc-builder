@@ -1,6 +1,8 @@
 .building {
+  overflow: hidden;
   position: relative;
   padding: 4px 2px;
+  background-image: url("../images/grass_building.png");
   box-shadow: 0 0 2px 0 rgba(0,0,0,.2) inset;
   color: black;
   text-shadow: 0 0 1px white;
@@ -11,7 +13,6 @@
   cursor: -moz-grab;
   cursor: -webkit-grab;
   @include user-select(none);
-  overflow: hidden;
 
   &.is-dragging {
     cursor: -moz-grabbing;
@@ -26,31 +27,16 @@
     }
   }
 
-  &.building[data-count='0'] {
-    display: none;
-  }
-
-  &:after {
-    content: 'x' attr(data-count);
-    position: absolute;
-    right: 4px;
-    bottom: 4px;
-    min-width: 10px;
-    padding: 0 4px;
-    background-color: black;
-    color: white;
-    border-radius: 4px;
-    font-size: 10px;
-    line-height: 18px;
-    text-shadow: none;
-    text-align: center;
-    text-indent: 0;
-  }
-
   @each $building in $buildings {
-    &.#{$building} {
-      background-image: asset-url("#{$building}.png"), asset-url("grass_building.png");
-      background-size: cover, auto;
+    &.#{$building}:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("../images/#{$building}.png");
+      background-size: cover;
     }
   }
 
