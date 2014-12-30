@@ -1,0 +1,414 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
+body {
+  font-family: Open Sans;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased; }
+
+h2 {
+  font-weight: 300; }
+
+h3 {
+  font-weight: 400;
+  font-size: 16px; }
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+html,
+body {
+  height: 100%;
+  overflow-x: hidden; }
+
+body {
+  background: #f2f2f2; }
+
+header {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0 20px;
+  background: #cccccc; }
+  header button {
+    position: absolute;
+    right: 20px;
+    bottom: 20px; }
+
+h1 {
+  font-weight: 300;
+  font-size: 30px;
+  line-height: 60px; }
+
+.building {
+  overflow: hidden;
+  position: relative;
+  padding: 4px 2px;
+  background-image: url("../images/grass_building.png");
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2) inset;
+  color: black;
+  text-shadow: 0 0 1px white;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 12px;
+  text-align: center;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+  .building.is-dragging {
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+    z-index: 2; }
+  .building[data-size="1"] {
+    width: 20px;
+    height: 20px; }
+  .building[data-size="2"] {
+    width: 40px;
+    height: 40px; }
+  .building[data-size="3"] {
+    width: 60px;
+    height: 60px; }
+  .building[data-size="4"] {
+    width: 80px;
+    height: 80px; }
+  .building[data-size="5"] {
+    width: 100px;
+    height: 100px; }
+  .building.town_hall:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/town_hall.png");
+    background-size: cover; }
+  .building.builder_hut:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/builder_hut.png");
+    background-size: cover; }
+  .building.gold_mine:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/gold_mine.png");
+    background-size: cover; }
+  .building.elixir_extractor:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/elixir_extractor.png");
+    background-size: cover; }
+  .building.dark_elixir_extractor:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/dark_elixir_extractor.png");
+    background-size: cover; }
+  .building.gold_storage:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/gold_storage.png");
+    background-size: cover; }
+  .building.elixir_storage:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/elixir_storage.png");
+    background-size: cover; }
+  .building.dark_elixir_storage:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/dark_elixir_storage.png");
+    background-size: cover; }
+  .building.army_camp:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/army_camp.png");
+    background-size: cover; }
+  .building.barracks:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/barracks.png");
+    background-size: cover; }
+  .building.dark_barracks:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/dark_barracks.png");
+    background-size: cover; }
+  .building.spell_factory:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/spell_factory.png");
+    background-size: cover; }
+  .building.laboratory:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/laboratory.png");
+    background-size: cover; }
+  .building.barbarian_king:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/barbarian_king.png");
+    background-size: cover; }
+  .building.wall:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/wall.png");
+    background-size: cover; }
+  .building.cannon:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/cannon.png");
+    background-size: cover; }
+  .building.archer_tower:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/archer_tower.png");
+    background-size: cover; }
+  .building.mortar:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/mortar.png");
+    background-size: cover; }
+  .building.air_defense:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/air_defense.png");
+    background-size: cover; }
+  .building.wizard_tower:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/wizard_tower.png");
+    background-size: cover; }
+  .building.bomb:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/bomb.png");
+    background-size: cover; }
+  .building.spring_trap:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/spring_trap.png");
+    background-size: cover; }
+  .building.air_bomb:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/air_bomb.png");
+    background-size: cover; }
+  .building.giant_bomb:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/giant_bomb.png");
+    background-size: cover; }
+  .building.seeking_air_bomb:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/seeking_air_bomb.png");
+    background-size: cover; }
+  .building.hidden_tesla:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/hidden_tesla.png");
+    background-size: cover; }
+  .building.skeleton_trap:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../images/skeleton_trap.png");
+    background-size: cover; }
+  .building.ok {
+    background-color: #198c19; }
+  .building.notok {
+    background-color: #ff1919; }
+
+.sidebar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  background: white;
+  -webkit-transition: bottom 0.4s;
+  -moz-transition: bottom 0.4s;
+  transition: bottom 0.4s; }
+  .sidebar ul {
+    display: inline-block;
+    list-style: none;
+    white-space: nowrap;
+    padding: 10px; }
+  .sidebar .building {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    vertical-align: top;
+    white-space: normal; }
+    .sidebar .building[data-count='0'] {
+      display: none; }
+    .sidebar .building:after {
+      content: "x" attr(data-count);
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      min-width: 10px;
+      padding: 0 4px;
+      background-color: black;
+      color: white;
+      border-radius: 4px;
+      font-size: 10px;
+      line-height: 18px;
+      text-shadow: none;
+      text-align: center;
+      text-indent: 0; }
+
+.map {
+  min-height: 100%;
+  padding: 100px 40px 120px 40px;
+  background-image: url("../images/grass.png");
+  background-color: #66b266;
+  -webkit-perspective: 3000px;
+  -moz-perspective: 3000px;
+  perspective: 3000px; }
+
+.grid {
+  position: relative;
+  width: 800px;
+  height: 800px;
+  margin: 0 auto;
+  background-size: 40px 40px, 40px 40px, auto;
+  background-position: 0 0, 20px 20px;
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0.15)), -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0.15));
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0.15)), linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0.15));
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s; }
+  .view-mode .grid {
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform: translateY(-100px) rotateX(50deg) rotateZ(-45deg);
+    -moz-transform: translateY(-100px) rotateX(50deg) rotateZ(-45deg);
+    -ms-transform: translateY(-100px) rotateX(50deg) rotateZ(-45deg);
+    -o-transform: translateY(-100px) rotateX(50deg) rotateZ(-45deg);
+    transform: translateY(-100px) rotateX(50deg) rotateZ(-45deg);
+    box-shadow: -20px 20px 30px rgba(0, 0, 0, 0.5); }
+  .grid .building {
+    position: absolute;
+    text-indent: -999px; }
+    .grid .building:after {
+      display: none; }
+    .view-mode .grid .building:before {
+      -webkit-transform: rotateZ(45deg);
+      -moz-transform: rotateZ(45deg);
+      -ms-transform: rotateZ(45deg);
+      -o-transform: rotateZ(45deg);
+      transform: rotateZ(45deg); }
