@@ -1,2 +1,3 @@
 baseurl: ""
 markdown: kramdown
+gems: [bourbon]

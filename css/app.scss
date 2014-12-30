@@ -1,6 +1,6 @@
 ---
 ---
-@import 'bourbon/bourbon';
+@import 'bourbon';
 
 $header-height  : 60px;
 $map-width      : 800px;
@@ -35,9 +35,10 @@ $buildings      : (
   skeleton_trap
 );
 
-@import "typography";
-@import "layout";
-@import "header";
-@import "buildings";
-@import "sidebar";
-@import "map";
+@import
+  "typography",
+  "layout",
+  "header",
+  "buildings",
+  "sidebar",
+  "map";
