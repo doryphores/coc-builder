@@ -13,23 +13,23 @@ $map-width: 800px;
   width: $map-width;
   height: $map-width;
   margin: 0 auto;
-  background-color: rgba(#93a944, .6);
+  background-color: rgba(#93a944, .3);
   background-size: 40px 40px, 40px 40px, auto;
   background-position: 0 0, 20px 20px;
   @include background-image(
     linear-gradient(45deg,
-      rgba(#bfd255, .3) 25%,
+      rgba(#bfd255, .2) 25%,
       transparent 25%,
       transparent 75%,
-      rgba(#bfd255, .3) 75%,
-      rgba(#bfd255, .3)
+      rgba(#bfd255, .2) 75%,
+      rgba(#bfd255, .2)
     ),
     linear-gradient(45deg,
-      rgba(#bfd255, .3) 25%,
+      rgba(#bfd255, .2) 25%,
       transparent 25%,
       transparent 75%,
-      rgba(#bfd255, .3) 75%,
-      rgba(#bfd255, .3)
+      rgba(#bfd255, .2) 75%,
+      rgba(#bfd255, .2)
     )
   );
   @include transition(all .4s);
@@ -44,7 +44,6 @@ $map-width: 800px;
     position: absolute;
     background-image: url("../images/grass.png");
     box-shadow: 0 0 2px 0 rgba(0,0,0,.2) inset;
-    text-indent: -999px;
 
     &:after {
       display: none;
@@ -52,6 +51,14 @@ $map-width: 800px;
 
     .view-mode &:before {
       @include transform(rotateZ(45deg));
+    }
+
+    &.ok {
+      background: rgba(tint(green, 10%), .6);
+    }
+
+    &.notok {
+      background: rgba(tint(red, 10%), .6);
     }
   }
 }

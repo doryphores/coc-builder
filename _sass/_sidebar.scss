@@ -20,7 +20,6 @@
     width: 60px;
     height: 60px;
     vertical-align: top;
-    white-space: normal;
     @include background(linear-gradient(top, #86d3e0, #287ca2));
     box-shadow: 0 2px 5px 1px white inset;
     border: 1px solid black;
@@ -33,18 +32,14 @@
     &:after {
       content: 'x' attr(data-count);
       position: absolute;
-      right: 4px;
-      bottom: 4px;
-      min-width: 10px;
-      padding: 0 4px;
-      background-color: black;
-      color: white;
-      border-radius: 4px;
-      font-size: 10px;
-      line-height: 18px;
-      text-shadow: none;
+      left: 0;
+      right: 0;
+      top: 10px;
+      font-size: 14px;
+      font-weight: 400;
       text-align: center;
-      text-indent: 0;
+      color: white;
+      text-shadow: 1px 2px 0 black;
     }
   }
 }

@@ -1,13 +1,6 @@
 .building {
   overflow: hidden;
   position: relative;
-  padding: 4px 2px;
-  color: black;
-  text-shadow: 0 0 1px white;
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 12px;
-  text-align: center;
   cursor: -moz-grab;
   cursor: -webkit-grab;
   @include user-select(none);
@@ -40,13 +33,5 @@
     &.#{$building}:before {
       background-image: url("../images/#{$building}.png");
     }
-  }
-
-  &.ok {
-    background-color: tint(green, 10%);
-  }
-
-  &.notok {
-    background-color: tint(red, 10%);
   }
 }
