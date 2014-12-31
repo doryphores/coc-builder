@@ -2,10 +2,13 @@
 ---
 @import 'bourbon';
 
-$header-height  : 60px;
-$map-width      : 800px;
-$grid-square    : 20px;
-$buildings      : (
+$header-height : 60px;
+$map-width     : 800px;
+$grid-square   : 20px;
+
+$color-dark    : #4e4e3e;
+
+$buildings     : (
   town_hall,
   builder_hut,
   gold_mine,

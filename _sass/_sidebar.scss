@@ -4,8 +4,8 @@
   left: 0;
   right: 0;
   overflow: auto;
-  background: rgba(#4e4e3e, .6);
-  border-top: 1px solid #4e4e3e;
+  background: rgba($color-dark, .6);
+  border-top: 1px solid $color-dark;
   @include transition(bottom .4s);
 
   ul {
@@ -32,14 +32,12 @@
     &:after {
       content: 'x' attr(data-count);
       position: absolute;
-      left: 0;
-      right: 0;
-      top: 10px;
-      font-size: 14px;
-      font-weight: 400;
-      text-align: center;
-      color: white;
-      text-shadow: 1px 2px 0 black;
+      right: 5px;
+      bottom: 5px;
+      padding: 2px 4px;
+      font-size: 10px;
+      background-color: black;
+      border-radius: 4px;
     }
   }
 }

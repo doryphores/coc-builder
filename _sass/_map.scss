@@ -43,10 +43,17 @@ $map-width: 800px;
   .building {
     position: absolute;
     background-image: url("../images/grass.png");
-    box-shadow: 0 0 2px 0 rgba(0,0,0,.2) inset;
+    box-shadow: 0 0 1px 0 #bfd255 inset;
 
     &:after {
       display: none;
+    }
+
+    // Special case for Army camps (mostly grass)
+    &.army_camp:before {
+      background-size: 60%;
+      background-position: 45% 35%;
+      background-repeat: no-repeat;
     }
 
     .view-mode &:before {
@@ -54,11 +61,13 @@ $map-width: 800px;
     }
 
     &.ok {
-      background: rgba(tint(green, 10%), .6);
+      background: rgba(green, .6);
+      box-shadow: none;
     }
 
     &.notok {
-      background: rgba(tint(red, 10%), .6);
+      background: rgba(red, .6);
+      box-shadow: none;
     }
   }
 }
