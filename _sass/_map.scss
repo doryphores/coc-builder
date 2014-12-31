@@ -4,7 +4,7 @@ $map-width: 800px;
   min-height: 100%;
   padding: ($header-height + 40px) 40px 120px 40px;
   background-image: url("../images/grass.png");
-  background-color: tint(green, 40%);
+  background-attachment: fixed;
   @include perspective(3000px);
 }
 
@@ -13,24 +13,24 @@ $map-width: 800px;
   width: $map-width;
   height: $map-width;
   margin: 0 auto;
+  background-color: rgba(#93a944, .6);
   background-size: 40px 40px, 40px 40px, auto;
   background-position: 0 0, 20px 20px;
   @include background-image(
     linear-gradient(45deg,
-      rgba(255,255,255,.15) 25%,
+      rgba(#bfd255, .3) 25%,
       transparent 25%,
       transparent 75%,
-      rgba(255,255,255,.15) 75%,
-      rgba(255,255,255,.15)
+      rgba(#bfd255, .3) 75%,
+      rgba(#bfd255, .3)
     ),
     linear-gradient(45deg,
-      rgba(255,255,255,.15) 25%,
+      rgba(#bfd255, .3) 25%,
       transparent 25%,
       transparent 75%,
-      rgba(255,255,255,.15) 75%,
-      rgba(255,255,255,.15)
-    ),
-    asset-url("grass.png")
+      rgba(#bfd255, .3) 75%,
+      rgba(#bfd255, .3)
+    )
   );
   @include transition(all .4s);
 
@@ -42,6 +42,8 @@ $map-width: 800px;
 
   .building {
     position: absolute;
+    background-image: url("../images/grass.png");
+    box-shadow: 0 0 2px 0 rgba(0,0,0,.2) inset;
     text-indent: -999px;
 
     &:after {

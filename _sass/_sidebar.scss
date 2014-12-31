@@ -4,14 +4,15 @@
   left: 0;
   right: 0;
   overflow: auto;
-  background: white;
+  background: rgba(#4e4e3e, .6);
+  border-top: 1px solid #4e4e3e;
   @include transition(bottom .4s);
 
   ul {
     display: inline-block;
     list-style: none;
     white-space: nowrap;
-    padding: 10px;
+    padding: 5px;
   }
 
   .building {
@@ -20,6 +21,10 @@
     height: 60px;
     vertical-align: top;
     white-space: normal;
+    @include background(linear-gradient(top, #86d3e0, #287ca2));
+    box-shadow: 0 2px 5px 1px white inset;
+    border: 1px solid black;
+    border-radius: 8px;
 
     &[data-count='0'] {
       display: none;
