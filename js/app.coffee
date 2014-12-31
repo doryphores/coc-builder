@@ -37,14 +37,14 @@ class BaseMap
     @editMode = true
 
     @sidebar.addEventListener 'mousedown', (e) =>
-      return if !@editMode or e.target is @sidebar
+      return if !@editMode or e.target is @sidebar or e.button isnt 0
       @setGrabOffset(e)
       @addBuilding(e.target)
       @positionBuilding(e.clientX, e.clientY)
       @startDragging()
 
     @grid.addEventListener 'mousedown', (e) =>
-      return if !@editMode or e.target is @grid
+      return if !@editMode or e.target is @grid or e.button isnt 0
       @setGrabOffset(e)
       @activeBuilding = @buildings[parseInt(e.target.dataset.index, 10)]
       @positionBuilding(e.clientX, e.clientY)
@@ -102,7 +102,6 @@ class BaseMap
 
   positionAvailable: ->
     return true if @buildings.length < 2
-    console.log 'available?'
     for b in @buildings when b && b isnt @activeBuilding
       return false if @activeBuilding.overlaps(b)
     true
