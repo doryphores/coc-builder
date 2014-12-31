@@ -94,8 +94,8 @@ class BaseMap
 
     @activeBuilding.move(x, y)
     available = onMap && @positionAvailable()
-    @activeBuilding.element.classList.toggle('ok', onMap && available)
-    @activeBuilding.element.classList.toggle('notok', onMap && !available)
+    @activeBuilding.element.classList.toggle('ok', available)
+    @activeBuilding.element.classList.toggle('notok', !available)
 
   onMap: (x=@activeBuilding.x, y=@activeBuilding.y, size=@activeBuilding.size) ->
     (0 <= x <= @gridOffsets.width - size) && (0 <= y <= @gridOffsets.height - size)
