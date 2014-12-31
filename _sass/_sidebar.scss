@@ -20,14 +20,17 @@
     width: 60px;
     height: 60px;
     vertical-align: top;
-    @include background(linear-gradient(top, #86d3e0, #287ca2));
-    box-shadow: 0 2px 5px 1px white inset;
+    @include background(
+      linear-gradient(top, rgba(white, .1) 50%, transparent 50%),
+      linear-gradient(top, #86d3e0, #287ca2 80%)
+    );
+    box-shadow: 0 2px 2px 0 white inset,
+                0 -2px 2px -1px darken(#287ca2, 20%) inset;
     border: 1px solid black;
     border-radius: 8px;
 
-    &[data-count='0'] {
-      display: none;
-    }
+    &[data-count='0'],
+    &[data-count='1']:after { display: none; }
 
     &:after {
       content: 'x' attr(data-count);
