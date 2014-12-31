@@ -92,7 +92,7 @@
     BaseMap.prototype.addBuilding = function(source) {
       var el;
       el = document.createElement('span');
-      el.innerHTML = source.innerHTML;
+      el.setAttribute('title', source.getAttribute('title'));
       el.className = source.className;
       el.dataset.size = source.dataset.size;
       source.dataset.count = parseInt(source.dataset.count, 10) - 1;
