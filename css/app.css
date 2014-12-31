@@ -33,11 +33,21 @@ header {
   left: 0;
   right: 0;
   padding: 0 20px;
-  background: #cccccc; }
+  background: #4e4e3e;
+  border-bottom: 1px solid black;
+  color: white; }
   header button {
     position: absolute;
     right: 20px;
-    bottom: 20px; }
+    bottom: 20px;
+    padding: 5px 10px;
+    background: -webkit-linear-gradient(top, #bfe460, #68b410);
+    background: linear-gradient(to bottom, #bfe460, #68b410);
+    border-radius: 8px;
+    border: 1px solid black;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 1px black; }
 
 h1 {
   font-weight: 300;
@@ -48,8 +58,6 @@ h1 {
   overflow: hidden;
   position: relative;
   padding: 4px 2px;
-  background-image: url("../images/grass_building.png");
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2) inset;
   color: black;
   text-shadow: 0 0 1px white;
   font-size: 10px;
@@ -81,249 +89,71 @@ h1 {
   .building[data-size="5"] {
     width: 100px;
     height: 100px; }
+  .building:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    -webkit-transition: -webkit-transform 0.4s;
+    -moz-transition: -moz-transform 0.4s;
+    transition: transform 0.4s; }
   .building.town_hall:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/town_hall.png");
-    background-size: cover; }
+    background-image: url("../images/town_hall.png"); }
   .building.builder_hut:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/builder_hut.png");
-    background-size: cover; }
+    background-image: url("../images/builder_hut.png"); }
   .building.gold_mine:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/gold_mine.png");
-    background-size: cover; }
+    background-image: url("../images/gold_mine.png"); }
   .building.elixir_extractor:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/elixir_extractor.png");
-    background-size: cover; }
+    background-image: url("../images/elixir_extractor.png"); }
   .building.dark_elixir_extractor:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/dark_elixir_extractor.png");
-    background-size: cover; }
+    background-image: url("../images/dark_elixir_extractor.png"); }
   .building.gold_storage:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/gold_storage.png");
-    background-size: cover; }
+    background-image: url("../images/gold_storage.png"); }
   .building.elixir_storage:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/elixir_storage.png");
-    background-size: cover; }
+    background-image: url("../images/elixir_storage.png"); }
   .building.dark_elixir_storage:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/dark_elixir_storage.png");
-    background-size: cover; }
+    background-image: url("../images/dark_elixir_storage.png"); }
   .building.army_camp:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/army_camp.png");
-    background-size: cover; }
+    background-image: url("../images/army_camp.png"); }
   .building.barracks:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/barracks.png");
-    background-size: cover; }
+    background-image: url("../images/barracks.png"); }
   .building.dark_barracks:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/dark_barracks.png");
-    background-size: cover; }
+    background-image: url("../images/dark_barracks.png"); }
   .building.spell_factory:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/spell_factory.png");
-    background-size: cover; }
+    background-image: url("../images/spell_factory.png"); }
   .building.laboratory:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/laboratory.png");
-    background-size: cover; }
+    background-image: url("../images/laboratory.png"); }
   .building.barbarian_king:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/barbarian_king.png");
-    background-size: cover; }
+    background-image: url("../images/barbarian_king.png"); }
   .building.wall:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/wall.png");
-    background-size: cover; }
+    background-image: url("../images/wall.png"); }
   .building.cannon:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/cannon.png");
-    background-size: cover; }
+    background-image: url("../images/cannon.png"); }
   .building.archer_tower:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/archer_tower.png");
-    background-size: cover; }
+    background-image: url("../images/archer_tower.png"); }
   .building.mortar:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/mortar.png");
-    background-size: cover; }
+    background-image: url("../images/mortar.png"); }
   .building.air_defense:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/air_defense.png");
-    background-size: cover; }
+    background-image: url("../images/air_defense.png"); }
   .building.wizard_tower:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/wizard_tower.png");
-    background-size: cover; }
+    background-image: url("../images/wizard_tower.png"); }
   .building.bomb:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/bomb.png");
-    background-size: cover; }
+    background-image: url("../images/bomb.png"); }
   .building.spring_trap:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/spring_trap.png");
-    background-size: cover; }
+    background-image: url("../images/spring_trap.png"); }
   .building.air_bomb:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/air_bomb.png");
-    background-size: cover; }
+    background-image: url("../images/air_bomb.png"); }
   .building.giant_bomb:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/giant_bomb.png");
-    background-size: cover; }
+    background-image: url("../images/giant_bomb.png"); }
   .building.seeking_air_bomb:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/seeking_air_bomb.png");
-    background-size: cover; }
+    background-image: url("../images/seeking_air_bomb.png"); }
   .building.hidden_tesla:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/hidden_tesla.png");
-    background-size: cover; }
+    background-image: url("../images/hidden_tesla.png"); }
   .building.skeleton_trap:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../images/skeleton_trap.png");
-    background-size: cover; }
+    background-image: url("../images/skeleton_trap.png"); }
   .building.ok {
     background-color: #198c19; }
   .building.notok {
@@ -335,7 +165,8 @@ h1 {
   left: 0;
   right: 0;
   overflow: auto;
-  background: white;
+  background: rgba(78, 78, 62, 0.6);
+  border-top: 1px solid #4e4e3e;
   -webkit-transition: bottom 0.4s;
   -moz-transition: bottom 0.4s;
   transition: bottom 0.4s; }
@@ -343,13 +174,18 @@ h1 {
     display: inline-block;
     list-style: none;
     white-space: nowrap;
-    padding: 10px; }
+    padding: 5px; }
   .sidebar .building {
     display: inline-block;
     width: 60px;
     height: 60px;
     vertical-align: top;
-    white-space: normal; }
+    white-space: normal;
+    background: -webkit-linear-gradient(top, #86d3e0, #287ca2);
+    background: linear-gradient(to bottom, #86d3e0, #287ca2);
+    box-shadow: 0 2px 5px 1px white inset;
+    border: 1px solid black;
+    border-radius: 8px; }
     .sidebar .building[data-count='0'] {
       display: none; }
     .sidebar .building:after {
@@ -372,7 +208,7 @@ h1 {
   min-height: 100%;
   padding: 100px 40px 120px 40px;
   background-image: url("../images/grass.png");
-  background-color: #66b266;
+  background-attachment: fixed;
   -webkit-perspective: 3000px;
   -moz-perspective: 3000px;
   perspective: 3000px; }
@@ -382,10 +218,11 @@ h1 {
   width: 800px;
   height: 800px;
   margin: 0 auto;
+  background-color: rgba(147, 169, 68, 0.6);
   background-size: 40px 40px, 40px 40px, auto;
   background-position: 0 0, 20px 20px;
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0.15)), -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0.15));
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0.15)), linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.15) 75%, rgba(255, 255, 255, 0.15));
+  background-image: -webkit-linear-gradient(45deg, rgba(191, 210, 85, 0.3) 25%, transparent 25%, transparent 75%, rgba(191, 210, 85, 0.3) 75%, rgba(191, 210, 85, 0.3)), -webkit-linear-gradient(45deg, rgba(191, 210, 85, 0.3) 25%, transparent 25%, transparent 75%, rgba(191, 210, 85, 0.3) 75%, rgba(191, 210, 85, 0.3));
+  background-image: linear-gradient(45deg, rgba(191, 210, 85, 0.3) 25%, transparent 25%, transparent 75%, rgba(191, 210, 85, 0.3) 75%, rgba(191, 210, 85, 0.3)), linear-gradient(45deg, rgba(191, 210, 85, 0.3) 25%, transparent 25%, transparent 75%, rgba(191, 210, 85, 0.3) 75%, rgba(191, 210, 85, 0.3));
   -webkit-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s; }
@@ -403,6 +240,8 @@ h1 {
     box-shadow: -20px 20px 30px rgba(0, 0, 0, 0.5); }
   .grid .building {
     position: absolute;
+    background-image: url("../images/grass.png");
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2) inset;
     text-indent: -999px; }
     .grid .building:after {
       display: none; }
