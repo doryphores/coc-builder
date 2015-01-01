@@ -3,20 +3,21 @@
   bottom: 0;
   left: 0;
   right: 0;
-  overflow: auto;
-  background: rgba($color-dark, .6);
-  border-top: 1px solid $color-dark;
-  @include transition(bottom .4s);
+  padding-top: 5px;
+  overflow-x: auto;
 
   ul {
     display: inline-block;
+    padding: 5px;
     list-style: none;
     white-space: nowrap;
-    padding: 5px;
+    background: rgba($color-dark, .6);
+    border-top: 1px solid $color-dark;
   }
 
   .building {
     display: inline-block;
+    top: 0;
     width: 60px;
     height: 60px;
     vertical-align: top;
@@ -28,9 +29,14 @@
                 0 -2px 2px -1px darken(#287ca2, 20%) inset;
     border: 1px solid black;
     border-radius: 8px;
+    @include transition(top .1s);
 
     &[data-count='0'],
     &[data-count='1']:after { display: none; }
+
+    &:hover {
+      top: -8px;
+    }
 
     &:after {
       content: 'x' attr(data-count);

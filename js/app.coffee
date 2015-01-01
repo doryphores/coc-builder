@@ -33,15 +33,23 @@ class BaseMap
     @sidebar = document.querySelector('.sidebar')
     @buildings = []
     @dragging = false
+    @selected = false
     @gridOffsets = @offset(@grid)
     @editMode = true
 
     @sidebar.addEventListener 'mousedown', (e) =>
-      return if !@editMode or e.target is @sidebar or e.button isnt 0
-      @setGrabOffset(e)
-      @addBuilding(e.target)
+      return if !@editMode or !e.target.classList.contains('building') or e.button isnt 0
+      @selectBuilding(e.target)
+
+    @sidebar.addEventListener 'mouseleave', (e) =>
+      return unless @selected
+      @addBuilding(@selected)
+      @grabOffset =
+        left: @activeBuilding.size / 2
+        top : @activeBuilding.size / 2
       @positionBuilding(e.clientX, e.clientY)
       @startDragging()
+      @selected = false
 
     @grid.addEventListener 'mousedown', (e) =>
       return if !@editMode or e.target is @grid or e.button isnt 0
@@ -52,12 +60,16 @@ class BaseMap
 
     document.body.addEventListener 'mouseup', (e) =>
       @stopDragging() if @dragging
+      @selected = false
 
     @element.addEventListener 'mousemove', (e) =>
       @positionBuilding(e.clientX, e.clientY) if @dragging
 
   toggleEditMode: ->
     @editMode = !@editMode
+
+  selectBuilding: (source) ->
+    @selected = source
 
   addBuilding: (source) ->
     el = document.createElement('span')
@@ -119,6 +131,9 @@ class BaseMap
       @removeBuilding()
 
     @activeBuilding = null
+    @grabOffset =
+      left: 0
+      top : 0
 
   setGrabOffset: (e) ->
     {x, y} = e.target.convertPointFromNode({x: e.clientX, y: e.clientY}, document)
