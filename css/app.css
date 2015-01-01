@@ -102,7 +102,7 @@ h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background-size: auto 100%;
+    background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
     -webkit-transition: -webkit-transform 0.4s;
@@ -256,8 +256,10 @@ h1 {
       background: url("../images/grass_building.png"); }
     .grid .building.army_camp:before {
       background-size: 60%;
-      background-position: 45% 35%;
-      background-repeat: no-repeat; }
+      background-position: 42% 46%; }
+    .grid .building.wall:before {
+      background-size: 80%;
+      background-position: center top; }
     .view-mode .grid .building:before {
       -webkit-transform: rotateZ(45deg);
       -moz-transform: rotateZ(45deg);
