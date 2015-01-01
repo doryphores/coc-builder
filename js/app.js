@@ -45,22 +45,35 @@
       this.sidebar = document.querySelector('.sidebar');
       this.buildings = [];
       this.dragging = false;
+      this.selected = false;
       this.gridOffsets = this.offset(this.grid);
       this.editMode = true;
       this.sidebar.addEventListener('mousedown', (function(_this) {
         return function(e) {
-          if (!_this.editMode || e.target === _this.sidebar) {
+          if (!_this.editMode || !e.target.classList.contains('building') || e.button !== 0) {
             return;
           }
-          _this.setGrabOffset(e);
-          _this.addBuilding(e.target);
+          return _this.selectBuilding(e.target);
+        };
+      })(this));
+      this.sidebar.addEventListener('mouseleave', (function(_this) {
+        return function(e) {
+          if (!_this.selected) {
+            return;
+          }
+          _this.addBuilding(_this.selected);
+          _this.grabOffset = {
+            left: _this.activeBuilding.size / 2,
+            top: _this.activeBuilding.size / 2
+          };
           _this.positionBuilding(e.clientX, e.clientY);
-          return _this.startDragging();
+          _this.startDragging();
+          return _this.selected = false;
         };
       })(this));
       this.grid.addEventListener('mousedown', (function(_this) {
         return function(e) {
-          if (!_this.editMode || e.target === _this.grid) {
+          if (!_this.editMode || e.target === _this.grid || e.button !== 0) {
             return;
           }
           _this.setGrabOffset(e);
@@ -72,8 +85,9 @@
       document.body.addEventListener('mouseup', (function(_this) {
         return function(e) {
           if (_this.dragging) {
-            return _this.stopDragging();
+            _this.stopDragging();
           }
+          return _this.selected = false;
         };
       })(this));
       this.element.addEventListener('mousemove', (function(_this) {
@@ -87,6 +101,10 @@
 
     BaseMap.prototype.toggleEditMode = function() {
       return this.editMode = !this.editMode;
+    };
+
+    BaseMap.prototype.selectBuilding = function(source) {
+      return this.selected = source;
     };
 
     BaseMap.prototype.addBuilding = function(source) {
@@ -151,8 +169,8 @@
       }
       this.activeBuilding.move(x, y);
       available = onMap && this.positionAvailable();
-      this.activeBuilding.element.classList.toggle('ok', onMap && available);
-      return this.activeBuilding.element.classList.toggle('notok', onMap && !available);
+      this.activeBuilding.element.classList.toggle('ok', available);
+      return this.activeBuilding.element.classList.toggle('notok', !available);
     };
 
     BaseMap.prototype.onMap = function(x, y, size) {
@@ -173,7 +191,6 @@
       if (this.buildings.length < 2) {
         return true;
       }
-      console.log('available?');
       _ref = this.buildings;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         b = _ref[_i];
@@ -197,7 +214,11 @@
       if (!(this.onMap() && this.positionAvailable())) {
         this.removeBuilding();
       }
-      return this.activeBuilding = null;
+      this.activeBuilding = null;
+      return this.grabOffset = {
+        left: 0,
+        top: 0
+      };
     };
 
     BaseMap.prototype.setGrabOffset = function(e) {
