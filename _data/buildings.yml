@@ -23,7 +23,7 @@ dark_elixir_extractor:
   description: "Dark elixir extractor"
   size: 3
   type: "resource"
-  count: 1
+  count: 2
 gold_storage:
   description: "Gold storage"
   size: 3
@@ -109,7 +109,7 @@ bomb:
   count: 6
 spring_trap:
   description: "Spring trap"
-  size: 6
+  size: 1
   type: "trap"
   count: 2
 air_bomb:
@@ -119,7 +119,7 @@ air_bomb:
   count: 2
 giant_bomb:
   description: "Giant bomb"
-  size: 1
+  size: 2
   type: "trap"
   count: 3
 seeking_air_bomb:
@@ -129,7 +129,7 @@ seeking_air_bomb:
   count: 2
 hidden_tesla:
   description: "Hidden tesla"
-  size: 3
+  size: 2
   type: "trap"
   count: 2
 skeleton_trap  :
