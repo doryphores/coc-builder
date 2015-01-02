@@ -3,6 +3,11 @@ town_hall:
   size: 4
   type: null
   count: 1
+clan_castle:
+  description: "Clan castle"
+  size: 3
+  type: null
+  count: 1
 
 builder_hut:
   description: "Builder's hut"
@@ -111,12 +116,12 @@ spring_trap:
   description: "Spring trap"
   size: 1
   type: "trap"
-  count: 2
+  count: 6
 air_bomb:
   description: "Air bomb"
   size: 4
   type: "trap"
-  count: 2
+  count: 4
 giant_bomb:
   description: "Giant bomb"
   size: 2
@@ -131,7 +136,7 @@ hidden_tesla:
   description: "Hidden tesla"
   size: 2
   type: "trap"
-  count: 2
+  count: 3
 skeleton_trap  :
   description: "Skeleton trap"
   size: 1
