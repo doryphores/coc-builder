@@ -33,16 +33,14 @@
     border-radius: 8px;
     @include transition(top .1s);
 
-    &[data-count='0'],
-    &[data-count='1']:after { display: none; }
-
     &:hover {
       top: -8px;
     }
 
-    &:after {
+    &:before {
       content: 'x' attr(data-count);
       position: absolute;
+      z-index: 3;
       right: 5px;
       bottom: 5px;
       padding: 2px 4px;
@@ -50,5 +48,9 @@
       background-color: black;
       border-radius: 4px;
     }
+
+    // Hide counter when less than 2
+    &[data-count='0'],
+    &[data-count='1']:before { display: none; }
   }
 }

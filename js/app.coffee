@@ -11,7 +11,7 @@ class Building
     @element.classList.add('is-dragging')
 
   drop: ->
-    @element.classList.remove('is-dragging', 'ok', 'notok')
+    @element.classList.remove('is-dragging', 'notok')
 
   move: (x, y) ->
     @x = x
@@ -106,7 +106,6 @@ class BaseMap
 
     @activeBuilding.move(x, y)
     available = onMap && @positionAvailable()
-    @activeBuilding.element.classList.toggle('ok', available)
     @activeBuilding.element.classList.toggle('notok', !available)
 
   onMap: (x=@activeBuilding.x, y=@activeBuilding.y, size=@activeBuilding.size) ->

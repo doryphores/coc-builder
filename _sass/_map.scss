@@ -4,7 +4,6 @@ $map-width: 800px;
   min-height: 100%;
   padding: ($header-height + 40px) 40px 120px 40px;
   background-image: url("../images/grass.png");
-  background-attachment: fixed;
   @include perspective(3000px);
 }
 
@@ -14,7 +13,7 @@ $map-width: 800px;
   height: $map-width;
   margin: 0 auto;
   background-color: rgba(#93a944, .3);
-  background-size: 40px 40px, 40px 40px, auto;
+  background-size: 40px 40px;
   background-position: 0 0, 20px 20px;
   @include background-image(
     linear-gradient(45deg,
@@ -32,6 +31,7 @@ $map-width: 800px;
       rgba(#bfd255, .2)
     )
   );
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
   @include transition(all .4s);
 
   .view-mode & {
@@ -42,12 +42,38 @@ $map-width: 800px;
 
   .building {
     position: absolute;
+    z-index: 1;
 
-    &:before {
+    &.is-dragging {
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
       z-index: 2;
+      background-size: 20px 20px;
+      background-color: #00d000;
+      @include background-image(
+        linear-gradient(top, #09e304 1px, transparent 1px, transparent, 19px, #09e304 19px),
+        linear-gradient(left, #09e304 1px, transparent 1px, transparent, 19px, #09e304 19px)
+      );
+
+      // Hide grass while dragging
+      &:before {
+        display: none;
+      }
+
+      &:after {
+        opacity: .7;
+      }
     }
 
-    &:after {
+    &.notok {
+      background-color: #d00000;
+      @include background-image(
+        linear-gradient(top, #f00306 1px, transparent 1px, transparent, 19px, #f00306 19px),
+        linear-gradient(left, #f00306 1px, transparent 1px, transparent, 19px, #f00306 19px)
+      );
+    }
+
+    &:before {
       content: '';
       position: absolute;
       z-index: 1;
@@ -59,37 +85,20 @@ $map-width: 800px;
     }
 
     // Special case for army camps as they're mostly grass
-    &.army_camp:before {
+    &.army_camp:after {
       background-size: 60%;
       background-position: 42% 46%;
     }
 
     // Special case for walls to help with wall effect
-    &.wall:before {
+    &.wall:after {
       background-size: 80%;
       background-position: center top;
     }
 
-    .view-mode &:before {
+    // Rotate to counter grid rotation
+    .view-mode &:after {
       @include transform(rotateZ(45deg));
-    }
-
-    &.ok {
-      background: rgba(green, .6);
-      box-shadow: none;
-
-      &:after {
-        display: none;
-      }
-    }
-
-    &.notok {
-      background: rgba(red, .6);
-      box-shadow: none;
-
-      &:after {
-        display: none;
-      }
     }
   }
 }
