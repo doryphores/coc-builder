@@ -3,8 +3,3 @@
   right: 30px;
   bottom: 100px;
 }
-
-.toggle-erase-mode {
-  &:after    { content: ' OFF';  }
-  &.on:after { content: ' ON';   }
-}

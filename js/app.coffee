@@ -25,6 +25,9 @@ class Building
     @y < building.y + building.size &&
     @size + @y > building.y
 
+  contains: (x, y) ->
+    (@x + @size > x >= @x) and (@y + @size > y >= @y)
+
 class BaseMap
   @snap: {{site.grid_square}}
 
@@ -37,6 +40,12 @@ class BaseMap
     @gridOffsets = @offset(@grid)
     @editMode = true
     @eraseMode = false
+    @wallMode = false
+    @grabOffset =
+      top : 0
+      left: 0
+
+    @wallSource = @sidebar.querySelector('.wall')
 
     @sidebar.addEventListener 'mousedown', (e) =>
       return if !@editMode or !e.target.classList.contains('building') or e.button isnt 0
@@ -53,7 +62,13 @@ class BaseMap
       @selected = false
 
     @grid.addEventListener 'mousedown', (e) =>
-      return if !@editMode or e.target is @grid or e.button isnt 0
+      return if !@editMode or e.button isnt 0
+      if @wallMode and e.target is @grid
+        @addWall(e.clientX, e.clientY)
+        @dragging = true
+        return
+
+      return if e.target is @grid
       @activeBuilding = @buildings[parseInt(e.target.dataset.index, 10)]
       if @eraseMode
         @removeBuilding()
@@ -67,7 +82,11 @@ class BaseMap
       @selected = false
 
     @element.addEventListener 'mousemove', (e) =>
-      @positionBuilding(e.clientX, e.clientY) if @dragging
+      return unless @dragging
+      if @wallMode
+        @addWall(e.clientX, e.clientY)
+      else
+        @positionBuilding(e.clientX, e.clientY)
 
   toggleEditMode: ->
     @editMode = !@editMode
@@ -75,6 +94,10 @@ class BaseMap
   toggleEraseMode: ->
     @grid.classList.toggle('erase-mode')
     @eraseMode = !@eraseMode
+
+  toggleWallMode: ->
+    @grid.classList.toggle('wall-mode')
+    @wallMode = !@wallMode
 
   selectBuilding: (source) ->
     @selected = source
@@ -99,6 +122,18 @@ class BaseMap
       break
 
     b.setIndex(i) for b, i in @buildings
+
+  addWall: (x, y) ->
+    return if parseInt(@wallSource.dataset.count, 10) is 0
+    {x, y} = @grid.convertPointFromNode({x: x, y: y}, document)
+    [x, y] = for v in [x, y]
+      Math.floor(v / BaseMap.snap) * BaseMap.snap
+
+    for b in @buildings
+      return if b.contains(x, y)
+
+    @addBuilding(@wallSource)
+    @activeBuilding.move(x, y)
 
   positionBuilding: (x, y) ->
     {x, y} = @grid.convertPointFromNode({x: x, y: y}, document)
@@ -131,6 +166,8 @@ class BaseMap
 
   stopDragging: ->
     @dragging = false
+
+    return if @wallMode
 
     @activeBuilding.drop()
 
@@ -171,6 +208,11 @@ document.querySelector('.switch-mode').addEventListener 'click', ->
 document.querySelector('.panel button').addEventListener 'click', ->
   document.querySelector('.panel').classList.toggle('open')
 
+for toggle in document.querySelectorAll('.toggle')
+  toggle.addEventListener 'click', -> this.classList.toggle('on')
+
 document.querySelector('.toggle-erase-mode').addEventListener 'click', ->
-  this.classList.toggle('on')
   baseMap.toggleEraseMode()
+
+document.querySelector('.toggle-wall-mode').addEventListener 'click', ->
+  baseMap.toggleWallMode()

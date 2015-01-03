@@ -38,6 +38,14 @@
     box-shadow: -20px 20px 30px rgba(0,0,0,.5);
   }
 
+  &.erase-mode .building {
+    cursor: default;
+  }
+
+  &.wall-mode .building {
+    cursor: default;
+  }
+
   .building {
     position: absolute;
     z-index: 1;
