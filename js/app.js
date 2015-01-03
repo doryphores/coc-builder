@@ -1,5 +1,5 @@
 (function() {
-  var BaseMap, Building, baseMap;
+  var BaseMap, Building, baseMap, toggle, _i, _len, _ref;
 
   Building = (function() {
     function Building(element, x, y) {
@@ -18,7 +18,7 @@
     };
 
     Building.prototype.drop = function() {
-      return this.element.classList.remove('is-dragging', 'ok', 'notok');
+      return this.element.classList.remove('is-dragging', 'notok');
     };
 
     Building.prototype.move = function(x, y) {
@@ -32,12 +32,16 @@
       return this.x < building.x + building.size && this.x + this.size > building.x && this.y < building.y + building.size && this.size + this.y > building.y;
     };
 
+    Building.prototype.contains = function(x, y) {
+      return ((this.x + this.size > x && x >= this.x)) && ((this.y + this.size > y && y >= this.y));
+    };
+
     return Building;
 
   })();
 
   BaseMap = (function() {
-    BaseMap.snap = 20;
+    BaseMap.snap = 25;
 
     function BaseMap(element) {
       this.element = element;
@@ -48,6 +52,13 @@
       this.selected = false;
       this.gridOffsets = this.offset(this.grid);
       this.editMode = true;
+      this.eraseMode = false;
+      this.wallMode = false;
+      this.grabOffset = {
+        top: 0,
+        left: 0
+      };
+      this.wallSource = this.sidebar.querySelector('.wall');
       this.sidebar.addEventListener('mousedown', (function(_this) {
         return function(e) {
           if (!_this.editMode || !e.target.classList.contains('building') || e.button !== 0) {
@@ -73,13 +84,25 @@
       })(this));
       this.grid.addEventListener('mousedown', (function(_this) {
         return function(e) {
-          if (!_this.editMode || e.target === _this.grid || e.button !== 0) {
+          if (!_this.editMode || e.button !== 0) {
             return;
           }
-          _this.setGrabOffset(e);
+          if (_this.wallMode && e.target === _this.grid) {
+            _this.addWall(e.clientX, e.clientY);
+            _this.dragging = true;
+            return;
+          }
+          if (e.target === _this.grid) {
+            return;
+          }
           _this.activeBuilding = _this.buildings[parseInt(e.target.dataset.index, 10)];
-          _this.positionBuilding(e.clientX, e.clientY);
-          return _this.startDragging();
+          if (_this.eraseMode) {
+            return _this.removeBuilding();
+          } else {
+            _this.setGrabOffset(e);
+            _this.positionBuilding(e.clientX, e.clientY);
+            return _this.startDragging();
+          }
         };
       })(this));
       document.body.addEventListener('mouseup', (function(_this) {
@@ -92,7 +115,12 @@
       })(this));
       this.element.addEventListener('mousemove', (function(_this) {
         return function(e) {
-          if (_this.dragging) {
+          if (!_this.dragging) {
+            return;
+          }
+          if (_this.wallMode) {
+            return _this.addWall(e.clientX, e.clientY);
+          } else {
             return _this.positionBuilding(e.clientX, e.clientY);
           }
         };
@@ -101,6 +129,16 @@
 
     BaseMap.prototype.toggleEditMode = function() {
       return this.editMode = !this.editMode;
+    };
+
+    BaseMap.prototype.toggleEraseMode = function() {
+      this.grid.classList.toggle('erase-mode');
+      return this.eraseMode = !this.eraseMode;
+    };
+
+    BaseMap.prototype.toggleWallMode = function() {
+      this.grid.classList.toggle('wall-mode');
+      return this.wallMode = !this.wallMode;
     };
 
     BaseMap.prototype.selectBuilding = function(source) {
@@ -146,6 +184,36 @@
       return _results;
     };
 
+    BaseMap.prototype.addWall = function(x, y) {
+      var b, v, _i, _len, _ref, _ref1, _ref2;
+      if (parseInt(this.wallSource.dataset.count, 10) === 0) {
+        return;
+      }
+      _ref = this.grid.convertPointFromNode({
+        x: x,
+        y: y
+      }, document), x = _ref.x, y = _ref.y;
+      _ref1 = (function() {
+        var _i, _len, _ref1, _results;
+        _ref1 = [x, y];
+        _results = [];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          v = _ref1[_i];
+          _results.push(Math.floor(v / BaseMap.snap) * BaseMap.snap);
+        }
+        return _results;
+      })(), x = _ref1[0], y = _ref1[1];
+      _ref2 = this.buildings;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        b = _ref2[_i];
+        if (b.contains(x, y)) {
+          return;
+        }
+      }
+      this.addBuilding(this.wallSource);
+      return this.activeBuilding.move(x, y);
+    };
+
     BaseMap.prototype.positionBuilding = function(x, y) {
       var available, onMap, snapped, v, _ref;
       _ref = this.grid.convertPointFromNode({
@@ -169,7 +237,6 @@
       }
       this.activeBuilding.move(x, y);
       available = onMap && this.positionAvailable();
-      this.activeBuilding.element.classList.toggle('ok', available);
       return this.activeBuilding.element.classList.toggle('notok', !available);
     };
 
@@ -210,6 +277,9 @@
 
     BaseMap.prototype.stopDragging = function() {
       this.dragging = false;
+      if (this.wallMode) {
+        return;
+      }
       this.activeBuilding.drop();
       if (!(this.onMap() && this.positionAvailable())) {
         this.removeBuilding();
@@ -258,6 +328,26 @@
 
   document.querySelector('.switch-mode').addEventListener('click', function() {
     return document.body.classList.toggle('view-mode');
+  });
+
+  document.querySelector('.panel button').addEventListener('click', function() {
+    return document.querySelector('.panel').classList.toggle('open');
+  });
+
+  _ref = document.querySelectorAll('.toggle');
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    toggle = _ref[_i];
+    toggle.addEventListener('click', function() {
+      return this.classList.toggle('on');
+    });
+  }
+
+  document.querySelector('.toggle-erase-mode').addEventListener('click', function() {
+    return baseMap.toggleEraseMode();
+  });
+
+  document.querySelector('.toggle-wall-mode').addEventListener('click', function() {
+    return baseMap.toggleWallMode();
   });
 
 }).call(this);

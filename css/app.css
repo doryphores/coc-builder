@@ -1,9 +1,43 @@
+@charset "UTF-8";
 @import url(http://fonts.googleapis.com/css?family=Slackey);
 body {
   font-family: 'Slackey', sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   color: white; }
+
+button::-moz-focus-inner {
+  border: 0; }
+
+.btn {
+  padding: 0 10px;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: 30px;
+  color: inherit;
+  text-shadow: 0 2px 0 black;
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 50%, transparent 50%), -webkit-linear-gradient(top, #bfe460, #68b410);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 50%, transparent 50%), linear-gradient(to bottom, #bfe460, #68b410);
+  border-radius: 8px;
+  border: 1px solid black;
+  box-shadow: 0 3px 0 -1px white inset, 0 -1px 0 1px #48840c inset, 0 1px 0 rgba(0, 0, 0, 0.4); }
+  .btn:hover, .btn.on {
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 50%, transparent 50%), -webkit-linear-gradient(top, #c8e876, #76cb12);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 50%, transparent 50%), linear-gradient(to bottom, #c8e876, #76cb12); }
+  .btn.toggle:after {
+    content: ' OFF'; }
+  .btn.toggle.on:after {
+    content: ' ON'; }
+  .btn.on {
+    box-shadow: 0 3px 0 -1px white inset, 0 -1px 0 1px #48840c inset, 0 1px 0 rgba(0, 0, 0, 0.4), 0 0 0 2px white; }
+  .btn:active {
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9); }
 
 * {
   margin: 0;
@@ -21,8 +55,8 @@ body {
   background: #f2f2f2; }
 
 header {
-  position: fixed;
-  z-index: 2;
+  position: absolute;
+  z-index: 3;
   top: 0;
   left: 0;
   right: 0;
@@ -34,31 +68,7 @@ header {
   header button {
     position: absolute;
     right: 20px;
-    top: 15px;
-    padding: 0 10px;
-    outline: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: inherit;
-    line-height: 30px;
-    color: inherit;
-    text-shadow: 0 2px 0 black;
-    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 50%, transparent 50%), -webkit-linear-gradient(top, #bfe460, #68b410);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 50%, transparent 50%), linear-gradient(to bottom, #bfe460, #68b410);
-    border-radius: 8px;
-    border: 1px solid black;
-    box-shadow: 0 3px 0 -1px white inset, 0 -1px 0 1px #48840c inset, 0 1px 0 rgba(0, 0, 0, 0.4); }
-    header button:hover {
-      background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 50%, transparent 50%), -webkit-linear-gradient(top, #c8e876, #76cb12);
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 50%, transparent 50%), linear-gradient(to bottom, #c8e876, #76cb12); }
-    header button:active {
-      -webkit-transform: scale(0.9);
-      -moz-transform: scale(0.9);
-      -ms-transform: scale(0.9);
-      -o-transform: scale(0.9);
-      transform: scale(0.9); }
-    header button::-moz-focus-inner {
-      border: 0; }
+    top: 15px; }
 
 h1 {
   font-weight: 400;
@@ -70,34 +80,32 @@ h1 {
 .building {
   overflow: hidden;
   position: relative;
+  z-index: 1;
   cursor: -moz-grab;
   cursor: -webkit-grab;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-  .building.is-dragging {
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
-    z-index: 2; }
   .building[data-size="1"] {
-    width: 20px;
-    height: 20px; }
+    width: 25px;
+    height: 25px; }
   .building[data-size="2"] {
-    width: 40px;
-    height: 40px; }
+    width: 50px;
+    height: 50px; }
   .building[data-size="3"] {
-    width: 60px;
-    height: 60px; }
+    width: 75px;
+    height: 75px; }
   .building[data-size="4"] {
-    width: 80px;
-    height: 80px; }
-  .building[data-size="5"] {
     width: 100px;
     height: 100px; }
-  .building:before {
+  .building[data-size="5"] {
+    width: 125px;
+    height: 125px; }
+  .building:after {
     content: '';
     position: absolute;
+    z-index: 2;
     top: 0;
     left: 0;
     right: 0;
@@ -108,63 +116,66 @@ h1 {
     -webkit-transition: -webkit-transform 0.4s;
     -moz-transition: -moz-transform 0.4s;
     transition: transform 0.4s; }
-  .building.town_hall:before {
+  .building.town_hall:after {
     background-image: url("../images/town_hall.png"); }
-  .building.builder_hut:before {
+  .building.clan_castle:after {
+    background-image: url("../images/clan_castle.png"); }
+  .building.builder_hut:after {
     background-image: url("../images/builder_hut.png"); }
-  .building.gold_mine:before {
+  .building.gold_mine:after {
     background-image: url("../images/gold_mine.png"); }
-  .building.elixir_extractor:before {
+  .building.elixir_extractor:after {
     background-image: url("../images/elixir_extractor.png"); }
-  .building.dark_elixir_extractor:before {
+  .building.dark_elixir_extractor:after {
     background-image: url("../images/dark_elixir_extractor.png"); }
-  .building.gold_storage:before {
+  .building.gold_storage:after {
     background-image: url("../images/gold_storage.png"); }
-  .building.elixir_storage:before {
+  .building.elixir_storage:after {
     background-image: url("../images/elixir_storage.png"); }
-  .building.dark_elixir_storage:before {
+  .building.dark_elixir_storage:after {
     background-image: url("../images/dark_elixir_storage.png"); }
-  .building.army_camp:before {
+  .building.army_camp:after {
     background-image: url("../images/army_camp.png"); }
-  .building.barracks:before {
+  .building.barracks:after {
     background-image: url("../images/barracks.png"); }
-  .building.dark_barracks:before {
+  .building.dark_barracks:after {
     background-image: url("../images/dark_barracks.png"); }
-  .building.spell_factory:before {
+  .building.spell_factory:after {
     background-image: url("../images/spell_factory.png"); }
-  .building.laboratory:before {
+  .building.laboratory:after {
     background-image: url("../images/laboratory.png"); }
-  .building.barbarian_king:before {
+  .building.barbarian_king:after {
     background-image: url("../images/barbarian_king.png"); }
-  .building.wall:before {
+  .building.wall:after {
     background-image: url("../images/wall.png"); }
-  .building.cannon:before {
+  .building.cannon:after {
     background-image: url("../images/cannon.png"); }
-  .building.archer_tower:before {
+  .building.archer_tower:after {
     background-image: url("../images/archer_tower.png"); }
-  .building.mortar:before {
+  .building.mortar:after {
     background-image: url("../images/mortar.png"); }
-  .building.air_defense:before {
+  .building.air_defense:after {
     background-image: url("../images/air_defense.png"); }
-  .building.wizard_tower:before {
+  .building.wizard_tower:after {
     background-image: url("../images/wizard_tower.png"); }
-  .building.bomb:before {
+  .building.bomb:after {
     background-image: url("../images/bomb.png"); }
-  .building.spring_trap:before {
+  .building.spring_trap:after {
     background-image: url("../images/spring_trap.png"); }
-  .building.air_bomb:before {
+  .building.air_bomb:after {
     background-image: url("../images/air_bomb.png"); }
-  .building.giant_bomb:before {
+  .building.giant_bomb:after {
     background-image: url("../images/giant_bomb.png"); }
-  .building.seeking_air_bomb:before {
+  .building.seeking_air_bomb:after {
     background-image: url("../images/seeking_air_bomb.png"); }
-  .building.hidden_tesla:before {
+  .building.hidden_tesla:after {
     background-image: url("../images/hidden_tesla.png"); }
-  .building.skeleton_trap:before {
+  .building.skeleton_trap:after {
     background-image: url("../images/skeleton_trap.png"); }
 
 .sidebar {
-  position: fixed;
+  position: absolute;
+  z-index: 1;
   bottom: 0;
   left: 0;
   right: 0;
@@ -177,6 +188,7 @@ h1 {
     padding: 5px;
     list-style: none;
     white-space: nowrap;
+    vertical-align: bottom;
     background: rgba(78, 78, 62, 0.6);
     border-top: 1px solid #4e4e3e; }
   .sidebar .building {
@@ -193,39 +205,45 @@ h1 {
     -webkit-transition: top 0.1s;
     -moz-transition: top 0.1s;
     transition: top 0.1s; }
-    .sidebar .building[data-count='0'], .sidebar .building[data-count='1']:after {
-      display: none; }
     .sidebar .building:hover {
       top: -8px; }
-    .sidebar .building:after {
+    .sidebar .building:before {
       content: "x" attr(data-count);
       position: absolute;
+      z-index: 3;
       right: 5px;
       bottom: 5px;
       padding: 2px 4px;
       font-size: 10px;
       background-color: black;
       border-radius: 4px; }
+    .sidebar .building[data-count='0'], .sidebar .building[data-count='1']:before {
+      display: none; }
+
+.tools {
+  position: fixed;
+  right: 30px;
+  bottom: 100px; }
 
 .map {
   min-height: 100%;
-  padding: 100px 40px 120px 40px;
+  padding: 100px 40px 160px 40px;
   background-image: url("../images/grass.png");
-  background-attachment: fixed;
   -webkit-perspective: 3000px;
   -moz-perspective: 3000px;
   perspective: 3000px; }
 
 .grid {
   position: relative;
-  width: 800px;
-  height: 800px;
+  width: 1000px;
+  height: 1000px;
   margin: 0 auto;
   background-color: rgba(147, 169, 68, 0.3);
-  background-size: 40px 40px, 40px 40px, auto;
-  background-position: 0 0, 20px 20px;
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px;
   background-image: -webkit-linear-gradient(45deg, rgba(191, 210, 85, 0.2) 25%, transparent 25%, transparent 75%, rgba(191, 210, 85, 0.2) 75%, rgba(191, 210, 85, 0.2)), -webkit-linear-gradient(45deg, rgba(191, 210, 85, 0.2) 25%, transparent 25%, transparent 75%, rgba(191, 210, 85, 0.2) 75%, rgba(191, 210, 85, 0.2));
   background-image: linear-gradient(45deg, rgba(191, 210, 85, 0.2) 25%, transparent 25%, transparent 75%, rgba(191, 210, 85, 0.2) 75%, rgba(191, 210, 85, 0.2)), linear-gradient(45deg, rgba(191, 210, 85, 0.2) 25%, transparent 25%, transparent 75%, rgba(191, 210, 85, 0.2) 75%, rgba(191, 210, 85, 0.2));
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   -webkit-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s; }
@@ -241,11 +259,30 @@ h1 {
     -o-transform: translateY(-100px) rotateX(50deg) rotateZ(-45deg);
     transform: translateY(-100px) rotateX(50deg) rotateZ(-45deg);
     box-shadow: -20px 20px 30px rgba(0, 0, 0, 0.5); }
+  .grid.erase-mode .building {
+    cursor: default; }
+  .grid.wall-mode .building {
+    cursor: default; }
   .grid .building {
-    position: absolute; }
+    position: absolute;
+    z-index: 1; }
+    .grid .building.is-dragging {
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+      z-index: 2;
+      background-size: 25px 25px;
+      background-color: #00d000;
+      background-image: -webkit-linear-gradient(top, #09e304 1px, transparent 1px, transparent, 24px, #09e304 24px), -webkit-linear-gradient(left, #09e304 1px, transparent 1px, transparent, 24px, #09e304 24px);
+      background-image: linear-gradient(to bottom, #09e304 1px, transparent 1px, transparent, 24px, #09e304 24px), linear-gradient(to right, #09e304 1px, transparent 1px, transparent, 24px, #09e304 24px); }
+      .grid .building.is-dragging:before {
+        display: none; }
+      .grid .building.is-dragging:after {
+        opacity: .7; }
+    .grid .building.notok {
+      background-color: #d00000;
+      background-image: -webkit-linear-gradient(top, #f00306 1px, transparent 1px, transparent, 24px, #f00306 24px), -webkit-linear-gradient(left, #f00306 1px, transparent 1px, transparent, 24px, #f00306 24px);
+      background-image: linear-gradient(to bottom, #f00306 1px, transparent 1px, transparent, 24px, #f00306 24px), linear-gradient(to right, #f00306 1px, transparent 1px, transparent, 24px, #f00306 24px); }
     .grid .building:before {
-      z-index: 2; }
-    .grid .building:after {
       content: '';
       position: absolute;
       z-index: 1;
@@ -254,25 +291,71 @@ h1 {
       right: 1px;
       bottom: 1px;
       background: url("../images/grass_building.png"); }
-    .grid .building.army_camp:before {
+    .grid .building.army_camp:after {
       background-size: 60%;
       background-position: 42% 46%; }
-    .grid .building.wall:before {
+    .grid .building.wall:after {
       background-size: 80%;
       background-position: center top; }
-    .view-mode .grid .building:before {
+    .view-mode .grid .building:after {
       -webkit-transform: rotateZ(45deg);
       -moz-transform: rotateZ(45deg);
       -ms-transform: rotateZ(45deg);
       -o-transform: rotateZ(45deg);
       transform: rotateZ(45deg); }
-    .grid .building.ok {
-      background: rgba(0, 128, 0, 0.6);
-      box-shadow: none; }
-      .grid .building.ok:after {
-        display: none; }
-    .grid .building.notok {
-      background: rgba(255, 0, 0, 0.6);
-      box-shadow: none; }
-      .grid .building.notok:after {
-        display: none; }
+
+.panel {
+  position: absolute;
+  z-index: 2;
+  top: 60px;
+  left: -300px;
+  bottom: 0;
+  background: #5f5f51;
+  border-right: 2px solid black;
+  width: 300px;
+  -webkit-transition: left 0.2s;
+  -moz-transition: left 0.2s;
+  transition: left 0.2s; }
+  .panel button {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    margin-top: -90px;
+    width: 40px;
+    height: 60px;
+    background: #5f5f51;
+    border: 2px solid black;
+    border-width: 2px 3px 2px 0;
+    border-radius: 0 6px 6px 0;
+    transform: perspective(9px) rotateY(9deg);
+    transform-origin: left;
+    cursor: pointer; }
+    .panel button:after {
+      content: '❱';
+      position: absolute;
+      z-index: 2;
+      left: 1px;
+      right: 6px;
+      top: 3px;
+      bottom: 3px;
+      background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 50%, transparent 50%), -webkit-linear-gradient(top, #e88440, #d04816 80%);
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 50%, transparent 50%), linear-gradient(to bottom, #e88440, #d04816 80%);
+      border-radius: 6px;
+      box-shadow: -1px 0 2px 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.4);
+      color: white;
+      text-shadow: 0px 3px 0px black;
+      font-size: 20px;
+      line-height: 40px;
+      text-indent: -1px; }
+    .panel button:active:after {
+      -webkit-transform: scale(0.9);
+      -moz-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      -o-transform: scale(0.9);
+      transform: scale(0.9); }
+  .panel .panel-content {
+    padding: 20px; }
+  .panel.open {
+    left: 0; }
+    .panel.open button:after {
+      content: '❰'; }
