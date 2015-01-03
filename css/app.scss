@@ -4,8 +4,8 @@
 
 $header-height : 60px;
 $panel-width   : 300px;
-$map-width     : 800px;
-$grid-square   : 20px;
+$grid-square   : {{site.grid_square}}px;
+$map-width     : $grid-square * 40;
 
 $color-dark    : #4e4e3e;
 

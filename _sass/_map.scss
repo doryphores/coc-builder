@@ -1,5 +1,3 @@
-$map-width: 800px;
-
 .map {
   min-height: 100%;
   padding: ($header-height + 40px) 40px 160px 40px;
@@ -13,8 +11,8 @@ $map-width: 800px;
   height: $map-width;
   margin: 0 auto;
   background-color: rgba(#93a944, .3);
-  background-size: 40px 40px;
-  background-position: 0 0, 20px 20px;
+  background-size: $grid-square*2 $grid-square*2;
+  background-position: 0 0, $grid-square $grid-square;
   @include background-image(
     linear-gradient(45deg,
       rgba(#bfd255, .2) 25%,
@@ -48,11 +46,11 @@ $map-width: 800px;
       cursor: -moz-grabbing;
       cursor: -webkit-grabbing;
       z-index: 2;
-      background-size: 20px 20px;
+      background-size: $grid-square $grid-square;
       background-color: #00d000;
       @include background-image(
-        linear-gradient(top, #09e304 1px, transparent 1px, transparent, 19px, #09e304 19px),
-        linear-gradient(left, #09e304 1px, transparent 1px, transparent, 19px, #09e304 19px)
+        linear-gradient(top, #09e304 1px, transparent 1px, transparent, $grid-square - 1, #09e304 $grid-square - 1),
+        linear-gradient(left, #09e304 1px, transparent 1px, transparent, $grid-square - 1, #09e304 $grid-square - 1)
       );
 
       // Hide grass while dragging
@@ -68,8 +66,8 @@ $map-width: 800px;
     &.notok {
       background-color: #d00000;
       @include background-image(
-        linear-gradient(top, #f00306 1px, transparent 1px, transparent, 19px, #f00306 19px),
-        linear-gradient(left, #f00306 1px, transparent 1px, transparent, 19px, #f00306 19px)
+        linear-gradient(top, #f00306 1px, transparent 1px, transparent, $grid-square - 1, #f00306 $grid-square - 1),
+        linear-gradient(left, #f00306 1px, transparent 1px, transparent, $grid-square - 1, #f00306 $grid-square - 1)
       );
     }
 

@@ -2,3 +2,5 @@ baseurl: ""
 markdown: kramdown
 gems: [bourbon]
 exclude: [README.md, Gemfile, Gemfile.lock, Rakefile]
+
+grid_square: 25

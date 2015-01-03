@@ -26,7 +26,7 @@ class Building
     @size + @y > building.y
 
 class BaseMap
-  @snap: 20
+  @snap: {{site.grid_square}}
 
   constructor: (@element) ->
     @grid = @element.querySelector('.grid')

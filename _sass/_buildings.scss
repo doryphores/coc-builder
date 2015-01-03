@@ -8,8 +8,8 @@
 
   @for $size from 1 through 5 {
     &[data-size="#{$size}"] {
-      width: $size * 20px;
-      height: $size * 20px;
+      width: $size * $grid-square;
+      height: $size * $grid-square;
     }
   }
 
