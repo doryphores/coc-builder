@@ -36,6 +36,7 @@ class BaseMap
     @selected = false
     @gridOffsets = @offset(@grid)
     @editMode = true
+    @eraseMode = false
 
     @sidebar.addEventListener 'mousedown', (e) =>
       return if !@editMode or !e.target.classList.contains('building') or e.button isnt 0
@@ -53,10 +54,13 @@ class BaseMap
 
     @grid.addEventListener 'mousedown', (e) =>
       return if !@editMode or e.target is @grid or e.button isnt 0
-      @setGrabOffset(e)
       @activeBuilding = @buildings[parseInt(e.target.dataset.index, 10)]
-      @positionBuilding(e.clientX, e.clientY)
-      @startDragging()
+      if @eraseMode
+        @removeBuilding()
+      else
+        @setGrabOffset(e)
+        @positionBuilding(e.clientX, e.clientY)
+        @startDragging()
 
     document.body.addEventListener 'mouseup', (e) =>
       @stopDragging() if @dragging
@@ -67,6 +71,10 @@ class BaseMap
 
   toggleEditMode: ->
     @editMode = !@editMode
+
+  toggleEraseMode: ->
+    @grid.classList.toggle('erase-mode')
+    @eraseMode = !@eraseMode
 
   selectBuilding: (source) ->
     @selected = source
@@ -162,3 +170,7 @@ document.querySelector('.switch-mode').addEventListener 'click', ->
 
 document.querySelector('.panel button').addEventListener 'click', ->
   document.querySelector('.panel').classList.toggle('open')
+
+document.querySelector('.toggle-erase-mode').addEventListener 'click', ->
+  this.classList.toggle('on')
+  baseMap.toggleEraseMode()

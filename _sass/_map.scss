@@ -2,7 +2,7 @@ $map-width: 800px;
 
 .map {
   min-height: 100%;
-  padding: ($header-height + 40px) 40px 120px 40px;
+  padding: ($header-height + 40px) 40px 160px 40px;
   background-image: url("../images/grass.png");
   @include perspective(3000px);
 }
