@@ -13,38 +13,6 @@ header {
     position: absolute;
     right: 20px;
     top: ($header-height - 30px) / 2;
-    padding: 0 10px;
-    outline: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: inherit;
-    line-height: 30px;
-    color: inherit;
-    text-shadow: 0 2px 0 black;
-    @include background(
-      linear-gradient(top, rgba(white, .1) 50%, transparent 50%),
-      linear-gradient(top, #bfe460, #68b410)
-    );
-    border-radius: 8px;
-    border: 1px solid black;
-    box-shadow: 0 3px 0 -1px white inset,
-                0 -1px 0 1px #48840c inset,
-                0 1px 0 rgba(black, .4);
-
-    &:hover {
-      @include background(
-        linear-gradient(top, rgba(white, .1) 50%, transparent 50%),
-        linear-gradient(top, lighten(#bfe460, 5%), lighten(#68b410, 5%))
-      );
-    }
-
-    &:active {
-      @include transform(scale(.9));
-    }
-
-    &::-moz-focus-inner {
-      border: 0;
-    }
   }
 }
 
