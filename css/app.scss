@@ -3,6 +3,7 @@
 @import 'bourbon';
 
 $header-height : 60px;
+$panel-width   : 300px;
 $map-width     : 800px;
 $grid-square   : 20px;
 
@@ -20,4 +21,5 @@ $buildings     : (
   "header",
   "buildings",
   "sidebar",
-  "map";
+  "map",
+  "panel";

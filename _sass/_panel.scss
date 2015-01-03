@@ -1,0 +1,65 @@
+.panel {
+  position: absolute;
+  z-index: 2;
+  top: $header-height;
+  left: -$panel-width;
+  bottom: 0;
+  background: tint($color-dark, 10%);
+  border-right: 2px solid black;
+  width: $panel-width;
+  @include transition(left .2s);
+
+  button {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    margin-top: -(30px + $header-height);
+    width: 40px;
+    height: 60px;
+    background: tint($color-dark, 10%);
+    border: 2px solid black;
+    border-width: 2px 3px 2px 0;
+    border-radius: 0 6px 6px 0;
+    transform: perspective(9px) rotateY(9deg);
+    transform-origin: left;
+    cursor: pointer;
+
+    &:after {
+      content: '❱';
+      position: absolute;
+      z-index: 2;
+      left: 1px;
+      right: 6px;
+      top: 3px;
+      bottom: 3px;
+      @include background(
+        linear-gradient(top, rgba(white, .1) 50%, transparent 50%),
+        linear-gradient(top, #e88440, #d04816 80%)
+      );
+      border-radius: 6px;
+      box-shadow: -1px 0 2px 2px white inset,
+                  0 1px 0 rgba(black, .4);
+      color: white;
+      text-shadow: 0px 3px 0px black;
+      font-size: 20px;
+      line-height: 40px;
+      text-indent: -1px;
+    }
+
+    &:active:after {
+      @include transform(scale(.9));
+    }
+  }
+
+  .panel-content {
+    padding: 20px;
+  }
+
+  &.open {
+    left: 0;
+
+    button:after {
+      content: '❰';
+    }
+  }
+}
