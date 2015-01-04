@@ -3,7 +3,7 @@ class BaseMap
 
   constructor: (@element) ->
     @grid = @element.querySelector('.grid')
-    @sidebar = document.querySelector('.sidebar')
+    @buildingSelector = document.querySelector('.selector')
     @buildings = []
     @dragging = false
     @selected = false
@@ -15,13 +15,13 @@ class BaseMap
       top : 0
       left: 0
 
-    @wallSource = @sidebar.querySelector('.wall')
+    @wallSource = @buildingSelector.querySelector('.wall')
 
-    @sidebar.addEventListener 'mousedown', (e) =>
+    @buildingSelector.addEventListener 'mousedown', (e) =>
       return if !@editMode or !e.target.classList.contains('building') or e.button isnt 0
       @selectBuilding(e.target)
 
-    @sidebar.addEventListener 'mouseleave', (e) =>
+    @buildingSelector.addEventListener 'mouseleave', (e) =>
       return unless @selected
       @addBuilding(@selected)
       @grabOffset =
@@ -85,7 +85,7 @@ class BaseMap
 
   removeBuilding: (building=@activeBuilding) ->
     @grid.removeChild(building.element)
-    source = @sidebar.querySelector(".#{building.element.className.split(' ').join('.')}")
+    source = @buildingSelector.querySelector(".#{building.element.className.split(' ').join('.')}")
     source.dataset.count = parseInt(source.dataset.count, 10) + 1
     for b, i in @buildings when b is building
       @buildings.splice(i, 1)

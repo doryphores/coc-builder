@@ -1,4 +1,4 @@
-.sidebar {
+.selector {
   position: absolute;
   z-index: 1;
   bottom: 0;
@@ -17,6 +17,7 @@
     vertical-align: bottom;
     background: rgba($color-dark, .6);
     border-top: 1px solid $color-dark;
+    font-size: 0;
   }
 
   .building {
@@ -34,6 +35,10 @@
     border: 1px solid black;
     border-radius: 8px;
     @include transition(top .1s);
+
+    + .building {
+      margin-left: 5px;
+    }
 
     &:hover {
       top: -8px;
