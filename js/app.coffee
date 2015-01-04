@@ -28,3 +28,9 @@ document.querySelector('.erase-all').addEventListener 'click', ->
 
 document.querySelector('.toggle-panel').addEventListener 'click', ->
   document.querySelector('.panel').classList.toggle('open')
+
+document.querySelector('.save').addEventListener 'click', ->
+  window.localStorage.setItem('base', baseMap.toJSON())
+
+document.querySelector('.load').addEventListener 'click', ->
+  baseMap.loadFromJSON(window.localStorage.getItem('base'))

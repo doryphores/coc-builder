@@ -172,3 +172,13 @@ class BaseMap
 
   clear: ->
     @removeBuilding(@buildings[0]) while @buildings.length
+
+  loadFromJSON: (data) ->
+    return unless data?
+    for item in JSON.parse(data)
+      b = @buildingSelector.querySelector("[data-type=#{item[0]}]")
+      @addBuilding(b)
+      @activeBuilding.move(item[1] * BaseMap.snap, item[2] * BaseMap.snap)
+
+  toJSON: ->
+    JSON.stringify(([b.type, b.x/BaseMap.snap, b.y/BaseMap.snap] for b in @buildings))
