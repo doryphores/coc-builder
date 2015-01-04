@@ -1,12 +1,12 @@
 ---
 ---
 
-BUILDINGS = {% include json/buildings.json %};
-LEVELS    = {% include json/levels.json %};
-
 {% include coffee/building.coffee %}
+{% include coffee/building_selector.coffee %}
 {% include coffee/base_map.coffee %}
 
+buildingSelector = new BuildingSelector(document.querySelector('.selector'))
+buildingSelector.load(8)
 baseMap = new BaseMap(document.querySelector('.map'))
 
 document.querySelector('.switch-mode').addEventListener 'click', ->

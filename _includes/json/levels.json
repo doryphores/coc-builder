@@ -1,17 +1,17 @@
 {
-  "7": {
-    "town_hall"             : 7,
+  "8": {
+    "town_hall"             : 1,
     "clan_castle"           : 1,
     "builder_hut"           : 4,
     "gold_mine"             : 6,
     "elixir_extractor"      : 6,
     "dark_elixir_extractor" : 2,
-    "gold_storage"          : 2,
-    "elixir_storage"        : 2,
+    "gold_storage"          : 3,
+    "elixir_storage"        : 3,
     "dark_elixir_storage"   : 1,
     "army_camp"             : 4,
     "barracks"              : 4,
-    "dark_barracks"         : 1,
+    "dark_barracks"         : 2,
     "spell_factory"         : 1,
     "laboratory"            : 1,
     "barbarian_king"        : 1,
