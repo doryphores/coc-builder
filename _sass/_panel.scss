@@ -9,7 +9,7 @@
   width: $panel-width;
   @include transition(left .2s);
 
-  button {
+  .toggle-panel {
     position: absolute;
     right: -40px;
     top: 50%;
@@ -58,7 +58,7 @@
   &.open {
     left: 0;
 
-    button:after {
+    .toggle-panel:after {
       content: '❰';
     }
   }
