@@ -1,9 +1,9 @@
 ---
 ---
 
-{% include _coffee/building.coffee %}
 
-{% include _coffee/base_map.coffee %}
+{% include coffee/building.coffee %}
+{% include coffee/base_map.coffee %}
 
 baseMap = new BaseMap(document.querySelector('.map'))
 
