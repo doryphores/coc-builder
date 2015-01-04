@@ -15,7 +15,7 @@ class BaseMap
       top : 0
       left: 0
 
-    @wallSource = @buildingSelector.querySelector('.wall')
+    @wallSource = @buildingSelector.querySelector('[data-type=wall]')
 
     @buildingSelector.addEventListener 'mousedown', (e) =>
       return if !@editMode or !e.target.classList.contains('building') or e.button isnt 0
@@ -77,6 +77,7 @@ class BaseMap
     el.setAttribute('title', source.getAttribute('title'))
     el.className = source.className
     el.dataset.size = source.dataset.size
+    el.dataset.type = source.dataset.type
     source.dataset.count = parseInt(source.dataset.count, 10) - 1
     el.dataset.index = @buildings.length
     @grid.appendChild(el)
@@ -85,7 +86,7 @@ class BaseMap
 
   removeBuilding: (building=@activeBuilding) ->
     @grid.removeChild(building.element)
-    source = @buildingSelector.querySelector(".#{building.element.className.split(' ').join('.')}")
+    source = @buildingSelector.querySelector("[data-type=#{building.type}]")
     source.dataset.count = parseInt(source.dataset.count, 10) + 1
     for b, i in @buildings when b is building
       @buildings.splice(i, 1)

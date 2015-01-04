@@ -91,13 +91,13 @@
     }
 
     // Special case for army camps as they're mostly grass
-    &.army_camp:after {
+    &[data-type='army_camp']:after {
       background-size: 60%;
       background-position: 42% 46%;
     }
 
     // Special case for walls to help with wall effect
-    &.wall:after {
+    &[data-type='wall']:after {
       background-size: 80%;
       background-position: center top;
     }

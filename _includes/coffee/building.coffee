@@ -1,6 +1,7 @@
 class Building
   constructor: (@element, @x=0, @y=0) ->
     @size = parseInt(@element.dataset.size, 10) * BaseMap.snap
+    @type = @element.dataset.type
 
   setIndex: (index) ->
     @element.dataset.index = index

@@ -28,7 +28,7 @@
   }
 
   @each $building in $buildings {
-    &.#{$building}:after {
+    &[data-type='#{$building}']:after {
       background-image: url("../images/#{$building}.png");
     }
   }

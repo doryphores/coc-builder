@@ -8,9 +8,10 @@ class BuildingSelector
   load: (level) ->
     for building, count of LEVELS[level]
       b = document.createElement('li')
-      b.className = "building #{building}"
+      b.className = "building"
+      b.dataset.type = building
       b.dataset.count = count
-      b.dataset.size  = BUILDINGS[building]['size']
+      b.dataset.size = BUILDINGS[building]['size']
       b.setAttribute('title', BUILDINGS[building]['description'])
       @list.appendChild(b)
 
