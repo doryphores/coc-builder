@@ -168,3 +168,6 @@ class BaseMap
       width  : element.offsetWidth
       height : element.offsetHeight
     }
+
+  clear: ->
+    @removeBuilding(@buildings[0]) while @buildings.length

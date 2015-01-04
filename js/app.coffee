@@ -23,5 +23,8 @@ document.querySelector('.toggle-erase-mode').addEventListener 'click', ->
 document.querySelector('.toggle-wall-mode').addEventListener 'click', ->
   baseMap.toggleWallMode()
 
+document.querySelector('.erase-all').addEventListener 'click', ->
+  baseMap.clear()
+
 document.querySelector('.toggle-panel').addEventListener 'click', ->
   document.querySelector('.panel').classList.toggle('open')
