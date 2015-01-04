@@ -1,0 +1,114 @@
+{
+  "town_hall": {
+    "description": "Town hall",
+    "size": 4
+  },
+  "clan_castle": {
+    "description": "Clan castle",
+    "size": 3
+  },
+  "builder_hut": {
+    "description": "Builder's hut",
+    "size": 2
+  },
+  "gold_mine": {
+    "description": "Gold mine",
+    "size": 3
+  },
+  "elixir_extractor": {
+    "description": "Elixir extractor",
+    "size": 3
+  },
+  "dark_elixir_extractor": {
+    "description": "Dark elixir extractor",
+    "size": 3
+  },
+  "gold_storage": {
+    "description": "Gold storage",
+    "size": 3
+  },
+  "elixir_storage": {
+    "description": "Elixir storage",
+    "size": 3
+  },
+  "dark_elixir_storage": {
+    "description": "Dark elixir storage",
+    "size": 3
+  },
+  "army_camp": {
+    "description": "Army camp",
+    "size": 5
+  },
+  "barracks": {
+    "description": "Barracks",
+    "size": 3
+  },
+  "dark_barracks": {
+    "description": "Dark barracks",
+    "size": 3
+  },
+  "spell_factory": {
+    "description": "Spell factory",
+    "size": 3
+  },
+  "laboratory": {
+    "description": "Laboratory",
+    "size": 4
+  },
+  "barbarian_king": {
+    "description": "Barbarian king",
+    "size": 3
+  },
+  "wall": {
+    "description": "Wall",
+    "size": 1
+  },
+  "cannon": {
+    "description": "Cannon",
+    "size": 3
+  },
+  "archer_tower": {
+    "description": "Archer tower",
+    "size": 3
+  },
+  "mortar": {
+    "description": "Mortar",
+    "size": 3
+  },
+  "air_defense": {
+    "description": "Air defense",
+    "size": 3
+  },
+  "wizard_tower": {
+    "description": "Wizard tower",
+    "size": 3
+  },
+  "bomb": {
+    "description": "Bomb",
+    "size": 1
+  },
+  "spring_trap": {
+    "description": "Spring trap",
+    "size": 1
+  },
+  "air_bomb": {
+    "description": "Air bomb",
+    "size": 4
+  },
+  "giant_bomb": {
+    "description": "Giant bomb",
+    "size": 2
+  },
+  "seeking_air_bomb": {
+    "description": "Seeking air bomb",
+    "size": 1
+  },
+  "hidden_tesla": {
+    "description": "Hidden tesla",
+    "size": 2
+  },
+  "skeleton_trap": {
+    "description": "Skeleton trap",
+    "size": 1
+  }
+}

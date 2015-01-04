@@ -1,6 +1,8 @@
 ---
 ---
 
+BUILDINGS = {% include json/buildings.json %};
+LEVELS    = {% include json/levels.json %};
 
 {% include coffee/building.coffee %}
 {% include coffee/base_map.coffee %}

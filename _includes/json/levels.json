@@ -1,0 +1,32 @@
+{
+  "7": {
+    "town_hall"             : 7,
+    "clan_castle"           : 1,
+    "builder_hut"           : 4,
+    "gold_mine"             : 6,
+    "elixir_extractor"      : 6,
+    "dark_elixir_extractor" : 2,
+    "gold_storage"          : 2,
+    "elixir_storage"        : 2,
+    "dark_elixir_storage"   : 1,
+    "army_camp"             : 4,
+    "barracks"              : 4,
+    "dark_barracks"         : 1,
+    "spell_factory"         : 1,
+    "laboratory"            : 1,
+    "barbarian_king"        : 1,
+    "wall"                  : 225,
+    "cannon"                : 5,
+    "archer_tower"          : 5,
+    "mortar"                : 4,
+    "air_defense"           : 3,
+    "wizard_tower"          : 3,
+    "bomb"                  : 6,
+    "spring_trap"           : 6,
+    "air_bomb"              : 4,
+    "giant_bomb"            : 3,
+    "seeking_air_bomb"      : 2,
+    "hidden_tesla"          : 3,
+    "skeleton_trap"         : 2
+  }
+}
