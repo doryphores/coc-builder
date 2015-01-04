@@ -32,7 +32,7 @@
   box-shadow: 0 0 10px rgba(0,0,0,.5);
   @include transition(all .4s);
 
-  .view-mode & {
+  .isometric-mode & {
     @include transform-style(preserve-3d);
     @include transform(translateY(-100px) rotateX(50deg) rotateZ(-45deg));
     box-shadow: -20px 20px 30px rgba(0,0,0,.5);
@@ -103,7 +103,7 @@
     }
 
     // Rotate to counter grid rotation
-    .view-mode &:after {
+    .isometric-mode &:after {
       @include transform(rotateZ(45deg));
     }
   }

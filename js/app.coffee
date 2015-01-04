@@ -7,10 +7,11 @@
 
 buildingSelector = new BuildingSelector(document.querySelector('.selector'))
 buildingSelector.load(8)
+
 baseMap = new BaseMap(document.querySelector('.map'))
 
-document.querySelector('.switch-mode').addEventListener 'click', ->
-  document.body.classList.toggle('view-mode')
+document.querySelector('.toggle-isometric-mode').addEventListener 'click', ->
+  document.body.classList.toggle('isometric-mode')
   # baseMap.toggleEditMode()
 
 document.querySelector('.panel button').addEventListener 'click', ->
