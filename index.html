@@ -10,87 +10,43 @@
 
   <body>
     <header>
-      <h1>CLASH of CLANS Base Builder</h1>
-      <button class="btn switch-mode">Toggle mode</button>
-    </header>
+  <h1>CLASH of CLANS Base Builder</h1>
+  <button class="btn toggle toggle-isometric-mode">3D mode</button>
+</header>
 
-    <div class="map">
-  <div class="grid"></div>
+<div class="map">
+  <div class="grid show-traps"></div>
 </div>
 
 <div class="tools">
-  <button class="btn toggle toggle-erase-mode">Erase mode</button>
   <button class="btn toggle toggle-wall-mode">Wall mode</button>
+  <button class="btn toggle toggle-erase-mode">Erase mode</button>
+  <button class="btn erase-all">Erase all</button>
 </div>
 
-<div class="sidebar">
-  <ul>
-    
-    <li class="building town_hall" data-size="4" data-count="1" title="Town hall"></li>
-    
-    <li class="building clan_castle" data-size="3" data-count="1" title="Clan castle"></li>
-    
-    <li class="building builder_hut" data-size="2" data-count="4" title="Builder's hut"></li>
-    
-    <li class="building gold_mine" data-size="3" data-count="6" title="Gold mine"></li>
-    
-    <li class="building elixir_extractor" data-size="3" data-count="6" title="Elixir extractor"></li>
-    
-    <li class="building dark_elixir_extractor" data-size="3" data-count="2" title="Dark elixir extractor"></li>
-    
-    <li class="building gold_storage" data-size="3" data-count="2" title="Gold storage"></li>
-    
-    <li class="building elixir_storage" data-size="3" data-count="2" title="Elixir storage"></li>
-    
-    <li class="building dark_elixir_storage" data-size="3" data-count="1" title="Dark elixir storage"></li>
-    
-    <li class="building army_camp" data-size="5" data-count="4" title="Army camp"></li>
-    
-    <li class="building barracks" data-size="3" data-count="4" title="Barracks"></li>
-    
-    <li class="building dark_barracks" data-size="3" data-count="1" title="Dark barracks"></li>
-    
-    <li class="building spell_factory" data-size="3" data-count="1" title="Spell factory"></li>
-    
-    <li class="building laboratory" data-size="4" data-count="1" title="Laboratory"></li>
-    
-    <li class="building barbarian_king" data-size="3" data-count="1" title="Barbarian king"></li>
-    
-    <li class="building wall" data-size="1" data-count="225" title="Wall"></li>
-    
-    <li class="building cannon" data-size="3" data-count="5" title="Cannon"></li>
-    
-    <li class="building archer_tower" data-size="3" data-count="5" title="Archer tower"></li>
-    
-    <li class="building mortar" data-size="3" data-count="4" title="Mortar"></li>
-    
-    <li class="building air_defense" data-size="3" data-count="3" title="Air defense"></li>
-    
-    <li class="building wizard_tower" data-size="3" data-count="3" title="Wizard tower"></li>
-    
-    <li class="building bomb" data-size="1" data-count="6" title="Bomb"></li>
-    
-    <li class="building spring_trap" data-size="1" data-count="6" title="Spring trap"></li>
-    
-    <li class="building air_bomb" data-size="4" data-count="4" title="Air bomb"></li>
-    
-    <li class="building giant_bomb" data-size="2" data-count="3" title="Giant bomb"></li>
-    
-    <li class="building seeking_air_bomb" data-size="1" data-count="2" title="Seeking air bomb"></li>
-    
-    <li class="building hidden_tesla" data-size="2" data-count="3" title="Hidden tesla"></li>
-    
-    <li class="building skeleton_trap" data-size="1" data-count="2" title="Skeleton trap"></li>
-    
-  </ul>
+<div class="selector">
+  <ul></ul>
 </div>
 
 <div class="panel">
-  <button></button>
-
   <div class="panel-content">
+    <button class="btn save">Save</button>
+    <button class="btn load">Load</button>
 
+    <br><br>
+
+    <button class="btn toggle toggle-perimeter">Toggle perimeter</button>
+
+    <br><br>
+
+    <button class="btn toggle toggle-range">Toggle range</button>
+
+    <br><br>
+
+    <button class="btn toggle toggle-traps on">Toggle traps</button>
   </div>
+
+  <button class="toggle-panel"></button>
 </div>
 
 

@@ -78,9 +78,7 @@ h1 {
   text-shadow: 1px 2px 0 black; }
 
 .building {
-  overflow: hidden;
   position: relative;
-  z-index: 1;
   cursor: -moz-grab;
   cursor: -webkit-grab;
   -webkit-user-select: none;
@@ -116,64 +114,64 @@ h1 {
     -webkit-transition: -webkit-transform 0.4s;
     -moz-transition: -moz-transform 0.4s;
     transition: transform 0.4s; }
-  .building.town_hall:after {
+  .building[data-type='town_hall']:after {
     background-image: url("../images/town_hall.png"); }
-  .building.clan_castle:after {
+  .building[data-type='clan_castle']:after {
     background-image: url("../images/clan_castle.png"); }
-  .building.builder_hut:after {
+  .building[data-type='builder_hut']:after {
     background-image: url("../images/builder_hut.png"); }
-  .building.gold_mine:after {
+  .building[data-type='gold_mine']:after {
     background-image: url("../images/gold_mine.png"); }
-  .building.elixir_extractor:after {
+  .building[data-type='elixir_extractor']:after {
     background-image: url("../images/elixir_extractor.png"); }
-  .building.dark_elixir_extractor:after {
+  .building[data-type='dark_elixir_extractor']:after {
     background-image: url("../images/dark_elixir_extractor.png"); }
-  .building.gold_storage:after {
+  .building[data-type='gold_storage']:after {
     background-image: url("../images/gold_storage.png"); }
-  .building.elixir_storage:after {
+  .building[data-type='elixir_storage']:after {
     background-image: url("../images/elixir_storage.png"); }
-  .building.dark_elixir_storage:after {
+  .building[data-type='dark_elixir_storage']:after {
     background-image: url("../images/dark_elixir_storage.png"); }
-  .building.army_camp:after {
+  .building[data-type='army_camp']:after {
     background-image: url("../images/army_camp.png"); }
-  .building.barracks:after {
+  .building[data-type='barracks']:after {
     background-image: url("../images/barracks.png"); }
-  .building.dark_barracks:after {
+  .building[data-type='dark_barracks']:after {
     background-image: url("../images/dark_barracks.png"); }
-  .building.spell_factory:after {
+  .building[data-type='spell_factory']:after {
     background-image: url("../images/spell_factory.png"); }
-  .building.laboratory:after {
+  .building[data-type='laboratory']:after {
     background-image: url("../images/laboratory.png"); }
-  .building.barbarian_king:after {
+  .building[data-type='barbarian_king']:after {
     background-image: url("../images/barbarian_king.png"); }
-  .building.wall:after {
+  .building[data-type='wall']:after {
     background-image: url("../images/wall.png"); }
-  .building.cannon:after {
+  .building[data-type='cannon']:after {
     background-image: url("../images/cannon.png"); }
-  .building.archer_tower:after {
+  .building[data-type='archer_tower']:after {
     background-image: url("../images/archer_tower.png"); }
-  .building.mortar:after {
+  .building[data-type='mortar']:after {
     background-image: url("../images/mortar.png"); }
-  .building.air_defense:after {
+  .building[data-type='air_defense']:after {
     background-image: url("../images/air_defense.png"); }
-  .building.wizard_tower:after {
+  .building[data-type='wizard_tower']:after {
     background-image: url("../images/wizard_tower.png"); }
-  .building.bomb:after {
+  .building[data-type='bomb']:after {
     background-image: url("../images/bomb.png"); }
-  .building.spring_trap:after {
+  .building[data-type='spring_trap']:after {
     background-image: url("../images/spring_trap.png"); }
-  .building.air_bomb:after {
+  .building[data-type='air_bomb']:after {
     background-image: url("../images/air_bomb.png"); }
-  .building.giant_bomb:after {
+  .building[data-type='giant_bomb']:after {
     background-image: url("../images/giant_bomb.png"); }
-  .building.seeking_air_bomb:after {
+  .building[data-type='seeking_air_bomb']:after {
     background-image: url("../images/seeking_air_bomb.png"); }
-  .building.hidden_tesla:after {
+  .building[data-type='hidden_tesla']:after {
     background-image: url("../images/hidden_tesla.png"); }
-  .building.skeleton_trap:after {
+  .building[data-type='skeleton_trap']:after {
     background-image: url("../images/skeleton_trap.png"); }
 
-.sidebar {
+.selector {
   position: absolute;
   z-index: 1;
   bottom: 0;
@@ -181,7 +179,7 @@ h1 {
   right: 0;
   padding-top: 5px;
   overflow-x: auto; }
-  .sidebar ul {
+  .selector ul {
     display: inline-block;
     height: 70px;
     min-width: 100%;
@@ -190,8 +188,9 @@ h1 {
     white-space: nowrap;
     vertical-align: bottom;
     background: rgba(78, 78, 62, 0.6);
-    border-top: 1px solid #4e4e3e; }
-  .sidebar .building {
+    border-top: 1px solid #4e4e3e;
+    font-size: 0; }
+  .selector .building {
     display: inline-block;
     top: 0;
     width: 60px;
@@ -205,9 +204,11 @@ h1 {
     -webkit-transition: top 0.1s;
     -moz-transition: top 0.1s;
     transition: top 0.1s; }
-    .sidebar .building:hover {
+    .selector .building + .building {
+      margin-left: 5px; }
+    .selector .building:hover {
       top: -8px; }
-    .sidebar .building:before {
+    .selector .building:before {
       content: "x" attr(data-count);
       position: absolute;
       z-index: 3;
@@ -217,7 +218,7 @@ h1 {
       font-size: 10px;
       background-color: black;
       border-radius: 4px; }
-    .sidebar .building[data-count='0'], .sidebar .building[data-count='1']:before {
+    .selector .building[data-count='0'], .selector .building[data-count='1']:before {
       display: none; }
 
 .tools {
@@ -247,7 +248,35 @@ h1 {
   -webkit-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s; }
-  .view-mode .grid {
+  .grid:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    margin-top: -6px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3); }
+  .grid:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    margin-top: -3px;
+    background-color: rgba(255, 255, 0, 0.5);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg); }
+  .isometric-mode .grid {
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     -ms-transform-style: preserve-3d;
@@ -264,12 +293,11 @@ h1 {
   .grid.wall-mode .building {
     cursor: default; }
   .grid .building {
-    position: absolute;
-    z-index: 1; }
+    position: absolute; }
     .grid .building.is-dragging {
       cursor: -moz-grabbing;
       cursor: -webkit-grabbing;
-      z-index: 2;
+      z-index: 2 !important;
       background-size: 25px 25px;
       background-color: #00d000;
       background-image: -webkit-linear-gradient(top, #09e304 1px, transparent 1px, transparent, 24px, #09e304 24px), -webkit-linear-gradient(left, #09e304 1px, transparent 1px, transparent, 24px, #09e304 24px);
@@ -291,18 +319,104 @@ h1 {
       right: 1px;
       bottom: 1px;
       background: url("../images/grass_building.png"); }
-    .grid .building.army_camp:after {
+    .grid .building[data-type='army_camp']:after {
       background-size: 60%;
       background-position: 42% 46%; }
-    .grid .building.wall:after {
+    .grid .building[data-type='wall']:after {
       background-size: 80%;
       background-position: center top; }
-    .view-mode .grid .building:after {
+    .isometric-mode .grid .building:after {
       -webkit-transform: rotateZ(45deg);
       -moz-transform: rotateZ(45deg);
       -ms-transform: rotateZ(45deg);
       -o-transform: rotateZ(45deg);
       transform: rotateZ(45deg); }
+    .grid .building span {
+      display: none;
+      position: absolute;
+      pointer-events: none; }
+  .grid .building[data-hidden='true'] {
+    display: none; }
+  .grid.show-traps .building[data-hidden='true'] {
+    display: block; }
+  .grid.show-perimeter .building[data-hidden='false'] span {
+    display: block;
+    top: -25px;
+    right: -25px;
+    bottom: -25px;
+    left: -25px;
+    background-size: 25px 25px;
+    background-color: #82C13B;
+    background-image: -webkit-linear-gradient(top, #a1d36c 1px, transparent 1px, transparent, 24px, #a1d36c 24px), -webkit-linear-gradient(left, #a1d36c 1px, transparent 1px, transparent, 24px, #a1d36c 24px);
+    background-image: linear-gradient(to bottom, #a1d36c 1px, transparent 1px, transparent, 24px, #a1d36c 24px), linear-gradient(to right, #a1d36c 1px, transparent 1px, transparent, 24px, #a1d36c 24px); }
+  .grid.show-range .building[class*='range'] span {
+    display: block;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-image: -webkit-radial-gradient(transparent 60%, white);
+    background-image: radial-gradient(transparent 60%, white);
+    box-shadow: 0 0 2px white; }
+  .grid.show-range .building.range-1 span {
+    width: 50px;
+    height: 50px;
+    margin-left: -25px;
+    margin-top: -25px; }
+  .grid.show-range .building.range-2 span {
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+    margin-top: -50px; }
+  .grid.show-range .building.range-3 span {
+    width: 150px;
+    height: 150px;
+    margin-left: -75px;
+    margin-top: -75px; }
+  .grid.show-range .building.range-4 span {
+    width: 200px;
+    height: 200px;
+    margin-left: -100px;
+    margin-top: -100px; }
+  .grid.show-range .building.range-5 span {
+    width: 250px;
+    height: 250px;
+    margin-left: -125px;
+    margin-top: -125px; }
+  .grid.show-range .building.range-6 span {
+    width: 300px;
+    height: 300px;
+    margin-left: -150px;
+    margin-top: -150px; }
+  .grid.show-range .building.range-7 span {
+    width: 350px;
+    height: 350px;
+    margin-left: -175px;
+    margin-top: -175px; }
+  .grid.show-range .building.range-8 span {
+    width: 400px;
+    height: 400px;
+    margin-left: -200px;
+    margin-top: -200px; }
+  .grid.show-range .building.range-9 span {
+    width: 450px;
+    height: 450px;
+    margin-left: -225px;
+    margin-top: -225px; }
+  .grid.show-range .building.range-10 span {
+    width: 500px;
+    height: 500px;
+    margin-left: -250px;
+    margin-top: -250px; }
+  .grid.show-range .building.range-11 span {
+    width: 550px;
+    height: 550px;
+    margin-left: -275px;
+    margin-top: -275px; }
+  .grid.dragging .building.building {
+    z-index: 1; }
+    .grid.dragging .building.building span {
+      display: none; }
 
 .panel {
   position: absolute;
@@ -316,7 +430,7 @@ h1 {
   -webkit-transition: left 0.2s;
   -moz-transition: left 0.2s;
   transition: left 0.2s; }
-  .panel button {
+  .panel .toggle-panel {
     position: absolute;
     right: -40px;
     top: 50%;
@@ -330,7 +444,7 @@ h1 {
     transform: perspective(9px) rotateY(9deg);
     transform-origin: left;
     cursor: pointer; }
-    .panel button:after {
+    .panel .toggle-panel:after {
       content: '❱';
       position: absolute;
       z-index: 2;
@@ -347,7 +461,7 @@ h1 {
       font-size: 20px;
       line-height: 40px;
       text-indent: -1px; }
-    .panel button:active:after {
+    .panel .toggle-panel:active:after {
       -webkit-transform: scale(0.9);
       -moz-transform: scale(0.9);
       -ms-transform: scale(0.9);
@@ -357,5 +471,5 @@ h1 {
     padding: 20px; }
   .panel.open {
     left: 0; }
-    .panel.open button:after {
+    .panel.open .toggle-panel:after {
       content: '❰'; }

@@ -1,5 +1,5 @@
 (function() {
-  var BaseMap, Building, baseMap, toggle, _i, _len, _ref;
+  var BUILDINGS, BaseMap, Building, BuildingSelector, LEVELS, baseMap, buildingSelector, toggle, _i, _len, _ref;
 
   Building = (function() {
     function Building(element, x, y) {
@@ -7,6 +7,7 @@
       this.x = x != null ? x : 0;
       this.y = y != null ? y : 0;
       this.size = parseInt(this.element.dataset.size, 10) * BaseMap.snap;
+      this.type = this.element.dataset.type;
     }
 
     Building.prototype.setIndex = function(index) {
@@ -40,13 +41,255 @@
 
   })();
 
+  BUILDINGS = {
+    "town_hall": {
+      "description": "Town hall",
+      "size": 4,
+      "hidden": false,
+      "range": 0
+    },
+    "clan_castle": {
+      "description": "Clan castle",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "builder_hut": {
+      "description": "Builder's hut",
+      "size": 2,
+      "hidden": false,
+      "range": 0
+    },
+    "gold_mine": {
+      "description": "Gold mine",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "elixir_extractor": {
+      "description": "Elixir extractor",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "dark_elixir_extractor": {
+      "description": "Dark elixir extractor",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "gold_storage": {
+      "description": "Gold storage",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "elixir_storage": {
+      "description": "Elixir storage",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "dark_elixir_storage": {
+      "description": "Dark elixir storage",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "army_camp": {
+      "description": "Army camp",
+      "size": 5,
+      "hidden": false,
+      "range": 0
+    },
+    "barracks": {
+      "description": "Barracks",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "dark_barracks": {
+      "description": "Dark barracks",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "spell_factory": {
+      "description": "Spell factory",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "laboratory": {
+      "description": "Laboratory",
+      "size": 4,
+      "hidden": false,
+      "range": 0
+    },
+    "barbarian_king": {
+      "description": "Barbarian king",
+      "size": 3,
+      "hidden": false,
+      "range": 0
+    },
+    "wall": {
+      "description": "Wall",
+      "size": 1,
+      "hidden": false,
+      "range": 0
+    },
+    "cannon": {
+      "description": "Cannon",
+      "size": 3,
+      "hidden": false,
+      "range": 9
+    },
+    "archer_tower": {
+      "description": "Archer tower",
+      "size": 3,
+      "hidden": false,
+      "range": 10
+    },
+    "mortar": {
+      "description": "Mortar",
+      "size": 3,
+      "hidden": false,
+      "range": 11
+    },
+    "air_defense": {
+      "description": "Air defense",
+      "size": 3,
+      "hidden": false,
+      "range": 10
+    },
+    "wizard_tower": {
+      "description": "Wizard tower",
+      "size": 3,
+      "hidden": false,
+      "range": 7
+    },
+    "bomb": {
+      "description": "Bomb",
+      "size": 1,
+      "hidden": true,
+      "range": 1
+    },
+    "spring_trap": {
+      "description": "Spring trap",
+      "size": 1,
+      "hidden": true,
+      "range": 0
+    },
+    "air_bomb": {
+      "description": "Air bomb",
+      "size": 1,
+      "hidden": true,
+      "range": 5
+    },
+    "giant_bomb": {
+      "description": "Giant bomb",
+      "size": 2,
+      "hidden": true,
+      "range": 2
+    },
+    "seeking_air_bomb": {
+      "description": "Seeking air bomb",
+      "size": 1,
+      "hidden": true,
+      "range": 4
+    },
+    "hidden_tesla": {
+      "description": "Hidden tesla",
+      "size": 2,
+      "hidden": true,
+      "range": 7
+    },
+    "skeleton_trap": {
+      "description": "Skeleton trap",
+      "size": 1,
+      "hidden": true,
+      "range": 5
+    }
+  };
+
+  LEVELS = {
+    "8": {
+      "town_hall": 1,
+      "clan_castle": 1,
+      "builder_hut": 4,
+      "gold_mine": 6,
+      "elixir_extractor": 6,
+      "dark_elixir_extractor": 2,
+      "gold_storage": 3,
+      "elixir_storage": 3,
+      "dark_elixir_storage": 1,
+      "army_camp": 4,
+      "barracks": 4,
+      "dark_barracks": 2,
+      "spell_factory": 1,
+      "laboratory": 1,
+      "barbarian_king": 1,
+      "wall": 225,
+      "cannon": 5,
+      "archer_tower": 5,
+      "mortar": 4,
+      "air_defense": 3,
+      "wizard_tower": 3,
+      "bomb": 6,
+      "spring_trap": 6,
+      "air_bomb": 4,
+      "giant_bomb": 3,
+      "seeking_air_bomb": 2,
+      "hidden_tesla": 3,
+      "skeleton_trap": 2
+    }
+  };
+
+  BuildingSelector = (function() {
+    function BuildingSelector(element) {
+      this.element = element;
+      this.list = this.element.querySelector('ul');
+    }
+
+    BuildingSelector.prototype.load = function(level) {
+      var b, building, count, _ref, _results;
+      _ref = LEVELS[level];
+      _results = [];
+      for (building in _ref) {
+        count = _ref[building];
+        b = document.createElement('li');
+        b.className = "building";
+        b.dataset.type = building;
+        b.dataset.count = count;
+        b.dataset.size = BUILDINGS[building]['size'];
+        b.dataset.hidden = BUILDINGS[building]['hidden'];
+        b.dataset.range = BUILDINGS[building]['range'];
+        b.setAttribute('title', BUILDINGS[building]['description']);
+        _results.push(this.list.appendChild(b));
+      }
+      return _results;
+    };
+
+    BuildingSelector.prototype.clear = function() {
+      var _results;
+      _results = [];
+      while (this.list.hasChildNodes()) {
+        _results.push(this.list.removeChild(this.list.lastChild));
+      }
+      return _results;
+    };
+
+    return BuildingSelector;
+
+  })();
+
   BaseMap = (function() {
     BaseMap.snap = 25;
 
     function BaseMap(element) {
       this.element = element;
       this.grid = this.element.querySelector('.grid');
-      this.sidebar = document.querySelector('.sidebar');
+      this.buildingSelector = document.querySelector('.selector');
       this.buildings = [];
       this.dragging = false;
       this.selected = false;
@@ -58,8 +301,8 @@
         top: 0,
         left: 0
       };
-      this.wallSource = this.sidebar.querySelector('.wall');
-      this.sidebar.addEventListener('mousedown', (function(_this) {
+      this.wallSource = this.buildingSelector.querySelector('[data-type=wall]');
+      this.buildingSelector.addEventListener('mousedown', (function(_this) {
         return function(e) {
           if (!_this.editMode || !e.target.classList.contains('building') || e.button !== 0) {
             return;
@@ -67,7 +310,7 @@
           return _this.selectBuilding(e.target);
         };
       })(this));
-      this.sidebar.addEventListener('mouseleave', (function(_this) {
+      this.buildingSelector.addEventListener('mouseleave', (function(_this) {
         return function(e) {
           if (!_this.selected) {
             return;
@@ -141,6 +384,18 @@
       return this.wallMode = !this.wallMode;
     };
 
+    BaseMap.prototype.togglePerimeter = function() {
+      return this.grid.classList.toggle('show-perimeter');
+    };
+
+    BaseMap.prototype.toggleRange = function() {
+      return this.grid.classList.toggle('show-range');
+    };
+
+    BaseMap.prototype.toggleTraps = function() {
+      return this.grid.classList.toggle('show-traps');
+    };
+
     BaseMap.prototype.selectBuilding = function(source) {
       return this.selected = source;
     };
@@ -148,9 +403,14 @@
     BaseMap.prototype.addBuilding = function(source) {
       var el;
       el = document.createElement('span');
-      el.setAttribute('title', source.getAttribute('title'));
+      el.innerHTML = "<span></span>";
       el.className = source.className;
       el.dataset.size = source.dataset.size;
+      el.dataset.type = source.dataset.type;
+      el.dataset.hidden = source.dataset.hidden;
+      if (source.dataset.range > 0) {
+        el.classList.add("range-" + source.dataset.range);
+      }
       source.dataset.count = parseInt(source.dataset.count, 10) - 1;
       el.dataset.index = this.buildings.length;
       this.grid.appendChild(el);
@@ -164,7 +424,7 @@
         building = this.activeBuilding;
       }
       this.grid.removeChild(building.element);
-      source = this.sidebar.querySelector("." + (building.element.className.split(' ').join('.')));
+      source = this.buildingSelector.querySelector("[data-type=" + building.type + "]");
       source.dataset.count = parseInt(source.dataset.count, 10) + 1;
       _ref = this.buildings;
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
@@ -272,6 +532,7 @@
 
     BaseMap.prototype.startDragging = function() {
       this.dragging = true;
+      this.grid.classList.add('dragging');
       return this.activeBuilding.pickup();
     };
 
@@ -280,6 +541,7 @@
       if (this.wallMode) {
         return;
       }
+      this.grid.classList.remove('dragging');
       this.activeBuilding.drop();
       if (!(this.onMap() && this.positionAvailable())) {
         this.removeBuilding();
@@ -320,18 +582,57 @@
       };
     };
 
+    BaseMap.prototype.clear = function() {
+      var _results;
+      _results = [];
+      while (this.buildings.length) {
+        _results.push(this.removeBuilding(this.buildings[0]));
+      }
+      return _results;
+    };
+
+    BaseMap.prototype.loadFromJSON = function(data) {
+      var b, item, _i, _len, _ref, _results;
+      if (data == null) {
+        return;
+      }
+      _ref = JSON.parse(data);
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        item = _ref[_i];
+        b = this.buildingSelector.querySelector("[data-type=" + item[0] + "]");
+        this.addBuilding(b);
+        _results.push(this.activeBuilding.move(item[1] * BaseMap.snap, item[2] * BaseMap.snap));
+      }
+      return _results;
+    };
+
+    BaseMap.prototype.toJSON = function() {
+      var b;
+      return JSON.stringify((function() {
+        var _i, _len, _ref, _results;
+        _ref = this.buildings;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          b = _ref[_i];
+          _results.push([b.type, b.x / BaseMap.snap, b.y / BaseMap.snap]);
+        }
+        return _results;
+      }).call(this));
+    };
+
     return BaseMap;
 
   })();
 
+  buildingSelector = new BuildingSelector(document.querySelector('.selector'));
+
+  buildingSelector.load(8);
+
   baseMap = new BaseMap(document.querySelector('.map'));
 
-  document.querySelector('.switch-mode').addEventListener('click', function() {
-    return document.body.classList.toggle('view-mode');
-  });
-
-  document.querySelector('.panel button').addEventListener('click', function() {
-    return document.querySelector('.panel').classList.toggle('open');
+  document.querySelector('.toggle-isometric-mode').addEventListener('click', function() {
+    return document.body.classList.toggle('isometric-mode');
   });
 
   _ref = document.querySelectorAll('.toggle');
@@ -348,6 +649,34 @@
 
   document.querySelector('.toggle-wall-mode').addEventListener('click', function() {
     return baseMap.toggleWallMode();
+  });
+
+  document.querySelector('.toggle-perimeter').addEventListener('click', function() {
+    return baseMap.togglePerimeter();
+  });
+
+  document.querySelector('.toggle-range').addEventListener('click', function() {
+    return baseMap.toggleRange();
+  });
+
+  document.querySelector('.toggle-traps').addEventListener('click', function() {
+    return baseMap.toggleTraps();
+  });
+
+  document.querySelector('.erase-all').addEventListener('click', function() {
+    return baseMap.clear();
+  });
+
+  document.querySelector('.toggle-panel').addEventListener('click', function() {
+    return document.querySelector('.panel').classList.toggle('open');
+  });
+
+  document.querySelector('.save').addEventListener('click', function() {
+    return window.localStorage.setItem('base', baseMap.toJSON());
+  });
+
+  document.querySelector('.load').addEventListener('click', function() {
+    return baseMap.loadFromJSON(window.localStorage.getItem('base'));
   });
 
 }).call(this);
