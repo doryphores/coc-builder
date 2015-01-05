@@ -1,7 +1,5 @@
 .building {
-  overflow: hidden;
   position: relative;
-  z-index: 1;
   cursor: -moz-grab;
   cursor: -webkit-grab;
   @include user-select(none);

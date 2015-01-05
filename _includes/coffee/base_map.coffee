@@ -69,15 +69,23 @@ class BaseMap
     @grid.classList.toggle('wall-mode')
     @wallMode = !@wallMode
 
+  togglePerimeter: ->
+    @grid.classList.toggle('show-perimeter')
+
+  toggleRange: ->
+    @grid.classList.toggle('show-range')
+
   selectBuilding: (source) ->
     @selected = source
 
   addBuilding: (source) ->
     el = document.createElement('span')
-    el.setAttribute('title', source.getAttribute('title'))
+    el.innerHTML = "<span></span>"
     el.className = source.className
     el.dataset.size = source.dataset.size
     el.dataset.type = source.dataset.type
+    el.dataset.hidden = source.dataset.hidden
+    el.classList.add("range-#{source.dataset.range}") if source.dataset.range > 0
     source.dataset.count = parseInt(source.dataset.count, 10) - 1
     el.dataset.index = @buildings.length
     @grid.appendChild(el)
@@ -133,6 +141,7 @@ class BaseMap
 
   startDragging: ->
     @dragging = true
+    @grid.classList.add('dragging')
     @activeBuilding.pickup()
 
   stopDragging: ->
@@ -140,6 +149,7 @@ class BaseMap
 
     return if @wallMode
 
+    @grid.classList.remove('dragging')
     @activeBuilding.drop()
 
     unless @onMap() && @positionAvailable()

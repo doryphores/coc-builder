@@ -12,6 +12,8 @@ class BuildingSelector
       b.dataset.type = building
       b.dataset.count = count
       b.dataset.size = BUILDINGS[building]['size']
+      b.dataset.hidden = BUILDINGS[building]['hidden']
+      b.dataset.range = BUILDINGS[building]['range']
       b.setAttribute('title', BUILDINGS[building]['description'])
       @list.appendChild(b)
 

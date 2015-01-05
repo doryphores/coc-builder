@@ -48,12 +48,11 @@
 
   .building {
     position: absolute;
-    z-index: 1;
 
     &.is-dragging {
       cursor: -moz-grabbing;
       cursor: -webkit-grabbing;
-      z-index: 2;
+      z-index: 2 !important;
       background-size: $grid-square $grid-square;
       background-color: #00d000;
       @include background-image(
@@ -105,6 +104,55 @@
     // Rotate to counter grid rotation
     .isometric-mode &:after {
       @include transform(rotateZ(45deg));
+    }
+
+    span {
+      display: none;
+      position: absolute;
+      pointer-events: none;
+    }
+  }
+
+  &.show-perimeter .building[data-hidden='false'] span {
+    display: block;
+    top: -$grid-square;
+    right: -$grid-square;
+    bottom: -$grid-square;
+    left: -$grid-square;
+    background-size: $grid-square $grid-square;
+    background-color: #82C13B;
+    @include background-image(
+      linear-gradient(top, tint(#8AC848, 20%) 1px, transparent 1px, transparent, $grid-square - 1, tint(#8AC848, 20%) $grid-square - 1),
+      linear-gradient(left, tint(#8AC848, 20%) 1px, transparent 1px, transparent, $grid-square - 1, tint(#8AC848, 20%) $grid-square - 1)
+    );
+  }
+
+  &.show-range .building {
+    &[class*='range'] span {
+      display: block;
+      top: 50%;
+      left: 50%;
+      border-radius: 50%;
+      border: 1px solid white;
+      @include background-image(radial-gradient(transparent 60%, white));
+      box-shadow: 0 0 2px white;
+    }
+
+    @for $range from 1 through 11 {
+      &.range-#{$range} span {
+        width: $range * 2 * $grid-square;
+        height: $range * 2 * $grid-square;
+        margin-left: -$range * $grid-square;
+        margin-top: -$range * $grid-square;
+      }
+    }
+  }
+
+  &.dragging .building.building {
+    z-index: 1;
+
+    span {
+      display: none;
     }
   }
 }

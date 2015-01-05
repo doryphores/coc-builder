@@ -23,6 +23,12 @@ document.querySelector('.toggle-erase-mode').addEventListener 'click', ->
 document.querySelector('.toggle-wall-mode').addEventListener 'click', ->
   baseMap.toggleWallMode()
 
+document.querySelector('.toggle-perimeter').addEventListener 'click', ->
+  baseMap.togglePerimeter()
+
+document.querySelector('.toggle-range').addEventListener 'click', ->
+  baseMap.toggleRange()
+
 document.querySelector('.erase-all').addEventListener 'click', ->
   baseMap.clear()
 
