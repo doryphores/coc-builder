@@ -141,6 +141,14 @@
     }
   }
 
+  .building[data-hidden='true'] {
+    display: none;
+  }
+
+  &.show-traps .building[data-hidden='true'] {
+    display: block;
+  }
+
   &.show-perimeter .building[data-hidden='false'] span {
     display: block;
     top: -$grid-square;

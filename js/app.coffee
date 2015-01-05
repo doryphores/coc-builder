@@ -29,6 +29,9 @@ document.querySelector('.toggle-perimeter').addEventListener 'click', ->
 document.querySelector('.toggle-range').addEventListener 'click', ->
   baseMap.toggleRange()
 
+document.querySelector('.toggle-traps').addEventListener 'click', ->
+  baseMap.toggleTraps()
+
 document.querySelector('.erase-all').addEventListener 'click', ->
   baseMap.clear()
 

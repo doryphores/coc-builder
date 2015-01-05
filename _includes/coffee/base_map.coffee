@@ -75,6 +75,9 @@ class BaseMap
   toggleRange: ->
     @grid.classList.toggle('show-range')
 
+  toggleTraps: ->
+    @grid.classList.toggle('show-traps')
+
   selectBuilding: (source) ->
     @selected = source
 
