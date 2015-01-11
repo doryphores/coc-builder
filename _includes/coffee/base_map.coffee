@@ -39,8 +39,8 @@ class BaseMap extends EventEmitter
   newBuilding: (source, x, y) ->
     @addBuilding(source)
     @grabOffset =
-      left: @activeBuilding.size / 2
-      top : @activeBuilding.size / 2
+      left: @activeBuilding.pixelSize / 2
+      top : @activeBuilding.pixelSize / 2
     @positionBuilding(x, y)
     @startDragging()
 
@@ -88,7 +88,7 @@ class BaseMap extends EventEmitter
     available = onMap && @positionAvailable()
     @activeBuilding.element.classList.toggle('notok', !available)
 
-  onMap: (x=@activeBuilding.left, y=@activeBuilding.top, size=@activeBuilding.size) ->
+  onMap: (x=@activeBuilding.left, y=@activeBuilding.top, size=@activeBuilding.pixelSize) ->
     (0 <= x <= @gridOffsets.width - size) && (0 <= y <= @gridOffsets.height - size)
 
   positionAvailable: ->

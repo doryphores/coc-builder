@@ -8,19 +8,16 @@ class Building
     @element.className = 'building'
     @element.classList.add("range-#{data.range}") if data.range > 0
 
-    @size = parseInt(@element.dataset.size, 10) * BaseMap.squareSize
-    @size2 = parseInt(data.size, 10)
-
-    @left = 0
-    @top  = 0
+    @size = parseInt(data.size, 10)
+    @pixelSize = @size * BaseMap.squareSize
 
     @position(@x * BaseMap.squareSize, @y * BaseMap.squareSize)
 
   appendTo: (element) ->
     element.appendChild(@element)
 
-  setIndex: (index) ->
-    @element.dataset.index = @index = index
+  setIndex: (@index) ->
+    @element.dataset.index = @index
 
   pickup: ->
     @element.classList.add('is-dragging')
@@ -28,19 +25,17 @@ class Building
   drop: ->
     @element.classList.remove('is-dragging', 'notok')
 
-  position: (left, top) ->
-    @left = left
+  position: (@left, @top) ->
+    @element.style[prop] = "#{@[prop]}px" for prop in ['left', 'top']
+
+    # Update grid coordinates
     @x = @left / BaseMap.squareSize
-    @top = top
     @y = @top / BaseMap.squareSize
-    @element.style.left = left + 'px'
-    @element.style.top  = top + 'px'
 
   overlaps: (building) ->
-    @x < building.x + building.size2 &&
-    @x + @size2 > building.x &&
-    @y < building.y + building.size2 &&
-    @size2 + @y > building.y
+    (building.x - @size < @x < building.x + building.size) and
+    (building.y - @size < @y < building.y + building.size)
 
   contains: (left, top) ->
-    (@left + @size > left >= @left) and (@top + @size > top >= @top)
+    (@left <= left < @left + @pixelSize) and
+    (@top  <= top  < @top  + @pixelSize)
