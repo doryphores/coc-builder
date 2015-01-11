@@ -32,6 +32,10 @@ class Building
     @x = @left / BaseMap.squareSize
     @y = @top / BaseMap.squareSize
 
+  getCenter: ->
+    c = Math.round(@size * BaseMap.squareSize / 2)
+    {top: c, left: c}
+
   overlaps: (building) ->
     (building.x - @size < @x < building.x + building.size) and
     (building.y - @size < @y < building.y + building.size)

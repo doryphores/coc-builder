@@ -8,7 +8,7 @@ class BaseMap extends EventEmitter
     @gridOffsets = @offset(@grid)
     @eraseMode = false
     @wallMode = false
-    @grabOffset = {top: 0, left: 0}
+    @grabOffset = false
 
     addEvent @grid, 'mousedown', (e) =>
       return if e.button isnt 0
@@ -38,9 +38,6 @@ class BaseMap extends EventEmitter
 
   newBuilding: (source, x, y) ->
     @addBuilding(source)
-    @grabOffset =
-      left: @activeBuilding.pixelSize / 2
-      top : @activeBuilding.pixelSize / 2
     @positionBuilding(x, y)
     @startDragging()
 
@@ -77,6 +74,8 @@ class BaseMap extends EventEmitter
 
   positionBuilding: (x, y) ->
     {x, y} = @grid.convertPointFromNode({x: x, y: y}, document)
+
+    @grabOffset = @grabOffset or @activeBuilding.getCenter()
 
     x = x - @grabOffset.left
     y = y - @grabOffset.top
@@ -116,9 +115,7 @@ class BaseMap extends EventEmitter
       @removeBuilding()
 
     @activeBuilding = null
-    @grabOffset =
-      left: 0
-      top : 0
+    @grabOffset = false
 
   setGrabOffset: (e) ->
     {x, y} = e.target.convertPointFromNode({x: e.clientX, y: e.clientY}, document)
