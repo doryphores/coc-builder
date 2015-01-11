@@ -12,7 +12,6 @@ baseMap = new BaseMap(document.querySelector('.map'))
 
 document.querySelector('.toggle-isometric-mode').addEventListener 'click', ->
   document.body.classList.toggle('isometric-mode')
-  # baseMap.toggleEditMode()
 
 for toggle in document.querySelectorAll('.toggle')
   toggle.addEventListener 'click', -> this.classList.toggle('on')

@@ -8,7 +8,6 @@ class BaseMap
     @dragging = false
     @selected = false
     @gridOffsets = @offset(@grid)
-    @editMode = true
     @eraseMode = false
     @wallMode = false
     @grabOffset =
@@ -32,7 +31,7 @@ class BaseMap
       @selected = false
 
     @grid.addEventListener 'mousedown', (e) =>
-      return if !@editMode or e.button isnt 0
+      return if e.button isnt 0
       if @wallMode and e.target is @grid
         @addWall(e.clientX, e.clientY)
         @dragging = true
@@ -57,9 +56,6 @@ class BaseMap
         @addWall(e.clientX, e.clientY)
       else
         @positionBuilding(e.clientX, e.clientY)
-
-  toggleEditMode: ->
-    @editMode = !@editMode
 
   toggleEraseMode: ->
     @grid.classList.toggle('erase-mode')
