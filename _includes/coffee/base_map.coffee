@@ -1,34 +1,16 @@
-class BaseMap
+class BaseMap extends EventEmitter
   @snap: {{site.grid_square}}
 
-  constructor: (@element) ->
+  constructor: (@element, @wallSource) ->
     @grid = @element.querySelector('.grid')
-    @buildingSelector = document.querySelector('.selector')
     @buildings = []
     @dragging = false
-    @selected = false
     @gridOffsets = @offset(@grid)
     @eraseMode = false
     @wallMode = false
     @grabOffset =
       top : 0
       left: 0
-
-    @wallSource = @buildingSelector.querySelector('[data-type=wall]')
-
-    @buildingSelector.addEventListener 'mousedown', (e) =>
-      return if !@editMode or !e.target.classList.contains('building') or e.button isnt 0
-      @selectBuilding(e.target)
-
-    @buildingSelector.addEventListener 'mouseleave', (e) =>
-      return unless @selected
-      @addBuilding(@selected)
-      @grabOffset =
-        left: @activeBuilding.size / 2
-        top : @activeBuilding.size / 2
-      @positionBuilding(e.clientX, e.clientY)
-      @startDragging()
-      @selected = false
 
     @grid.addEventListener 'mousedown', (e) =>
       return if e.button isnt 0
@@ -48,7 +30,6 @@ class BaseMap
 
     document.body.addEventListener 'mouseup', (e) =>
       @stopDragging() if @dragging
-      @selected = false
 
     @element.addEventListener 'mousemove', (e) =>
       return unless @dragging
@@ -74,10 +55,15 @@ class BaseMap
   toggleTraps: ->
     @grid.classList.toggle('show-traps')
 
-  selectBuilding: (source) ->
-    @selected = source
+  newBuilding: (source, x, y) ->
+    @addBuilding(source)
+    @grabOffset =
+      left: @activeBuilding.size / 2
+      top : @activeBuilding.size / 2
+    @positionBuilding(x, y)
+    @startDragging()
 
-  addBuilding: (source) ->
+  addBuilding: (source, x, y) ->
     el = document.createElement('span')
     el.innerHTML = "<span></span>"
     el.className = source.className
@@ -85,21 +71,19 @@ class BaseMap
     el.dataset.type = source.dataset.type
     el.dataset.hidden = source.dataset.hidden
     el.classList.add("range-#{source.dataset.range}") if source.dataset.range > 0
-    source.dataset.count = parseInt(source.dataset.count, 10) - 1
     el.dataset.index = @buildings.length
     @grid.appendChild(el)
     @activeBuilding = new Building(el)
+    @activeBuilding.move(x * BaseMap.snap, y * BaseMap.snap) if x? and y?
     @buildings.push(@activeBuilding)
+    @trigger('add', @activeBuilding.type)
 
   removeBuilding: (building=@activeBuilding) ->
     @grid.removeChild(building.element)
-    source = @buildingSelector.querySelector("[data-type=#{building.type}]")
-    source.dataset.count = parseInt(source.dataset.count, 10) + 1
-    for b, i in @buildings when b is building
-      @buildings.splice(i, 1)
-      break
-
+    @buildings.splice(i, 1) for b, i in @buildings when b is building
     b.setIndex(i) for b, i in @buildings
+
+    @trigger('remove', building.type)
 
   addWall: (x, y) ->
     return if parseInt(@wallSource.dataset.count, 10) is 0
@@ -181,13 +165,6 @@ class BaseMap
 
   clear: ->
     @removeBuilding(@buildings[0]) while @buildings.length
-
-  loadFromJSON: (data) ->
-    return unless data?
-    for item in JSON.parse(data)
-      b = @buildingSelector.querySelector("[data-type=#{item[0]}]")
-      @addBuilding(b)
-      @activeBuilding.move(item[1] * BaseMap.snap, item[2] * BaseMap.snap)
 
   toJSON: ->
     JSON.stringify(([b.type, b.x/BaseMap.snap, b.y/BaseMap.snap] for b in @buildings))
