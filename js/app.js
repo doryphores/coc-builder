@@ -1,5 +1,58 @@
 (function() {
-  var BUILDINGS, BaseMap, Building, BuildingSelector, LEVELS, baseMap, buildingSelector, toggle, _i, _len, _ref;
+  var BUILDINGS, BaseMap, Building, BuildingSelector, EventEmitter, LEVELS, baseMap, buildingSelector, toggle, _i, _len, _ref,
+    __slice = [].slice,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  EventEmitter = (function() {
+    function EventEmitter() {}
+
+    EventEmitter.prototype.on = function() {
+      var args, handler, name, _ref, _results;
+      args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      if (args.length === 1) {
+        _ref = args[0];
+        _results = [];
+        for (name in _ref) {
+          if (!__hasProp.call(_ref, name)) continue;
+          handler = _ref[name];
+          _results.push(this.addHandler(name, handler));
+        }
+        return _results;
+      } else {
+        return this.addHandler(args[0], args[1]);
+      }
+    };
+
+    EventEmitter.prototype.addHandler = function(name, handler) {
+      var _base;
+      if (this.handlers == null) {
+        this.handlers = {};
+      }
+      if ((_base = this.handlers)[name] == null) {
+        _base[name] = [];
+      }
+      return this.handlers[name].push(handler);
+    };
+
+    EventEmitter.prototype.trigger = function() {
+      var args, handler, name, _i, _len, _ref, _ref1, _results;
+      name = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      if (!((_ref = this.handlers) != null ? _ref[name] : void 0)) {
+        return;
+      }
+      _ref1 = this.handlers[name];
+      _results = [];
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        handler = _ref1[_i];
+        _results.push(handler.apply(this, args));
+      }
+      return _results;
+    };
+
+    return EventEmitter;
+
+  })();
 
   Building = (function() {
     function Building(element, x, y) {
@@ -245,27 +298,62 @@
     }
   };
 
-  BuildingSelector = (function() {
+  BuildingSelector = (function(_super) {
+    __extends(BuildingSelector, _super);
+
     function BuildingSelector(element) {
       this.element = element;
       this.list = this.element.querySelector('ul');
+      this.buildingTypes = {};
+      this.selectedBuilding = false;
+      this.element.addEventListener('mousedown', (function(_this) {
+        return function(e) {
+          if (!e.target.classList.contains('building') || e.button !== 0) {
+            return;
+          }
+          return _this.selectedBuilding = e.target;
+        };
+      })(this));
+      this.element.addEventListener('mouseleave', (function(_this) {
+        return function(e) {
+          if (!_this.selectedBuilding) {
+            return;
+          }
+          _this.trigger('select', _this.selectedBuilding, e.clientX, e.clientY);
+          return _this.selectedBuilding = false;
+        };
+      })(this));
+      this.element.addEventListener('mouseup', (function(_this) {
+        return function(e) {
+          return _this.selectedBuilding = false;
+        };
+      })(this));
     }
 
+    BuildingSelector.prototype.remove = function(type) {
+      return this.buildingTypes[type].dataset.count = parseInt(this.buildingTypes[type].dataset.count, 10) - 1;
+    };
+
+    BuildingSelector.prototype.restore = function(type) {
+      return this.buildingTypes[type].dataset.count = parseInt(this.buildingTypes[type].dataset.count, 10) + 1;
+    };
+
     BuildingSelector.prototype.load = function(level) {
-      var b, building, count, _ref, _results;
+      var b, count, type, _ref, _results;
       _ref = LEVELS[level];
       _results = [];
-      for (building in _ref) {
-        count = _ref[building];
+      for (type in _ref) {
+        count = _ref[type];
         b = document.createElement('li');
         b.className = "building";
-        b.dataset.type = building;
+        b.dataset.type = type;
         b.dataset.count = count;
-        b.dataset.size = BUILDINGS[building]['size'];
-        b.dataset.hidden = BUILDINGS[building]['hidden'];
-        b.dataset.range = BUILDINGS[building]['range'];
-        b.setAttribute('title', BUILDINGS[building]['description']);
-        _results.push(this.list.appendChild(b));
+        b.dataset.size = BUILDINGS[type]['size'];
+        b.dataset.hidden = BUILDINGS[type]['hidden'];
+        b.dataset.range = BUILDINGS[type]['range'];
+        b.setAttribute('title', BUILDINGS[type]['description']);
+        this.list.appendChild(b);
+        _results.push(this.buildingTypes[type] = b);
       }
       return _results;
     };
@@ -281,53 +369,29 @@
 
     return BuildingSelector;
 
-  })();
+  })(EventEmitter);
 
-  BaseMap = (function() {
+  BaseMap = (function(_super) {
+    __extends(BaseMap, _super);
+
     BaseMap.snap = 25;
 
-    function BaseMap(element) {
+    function BaseMap(element, wallSource) {
       this.element = element;
+      this.wallSource = wallSource;
       this.grid = this.element.querySelector('.grid');
-      this.buildingSelector = document.querySelector('.selector');
       this.buildings = [];
       this.dragging = false;
-      this.selected = false;
       this.gridOffsets = this.offset(this.grid);
-      this.editMode = true;
       this.eraseMode = false;
       this.wallMode = false;
       this.grabOffset = {
         top: 0,
         left: 0
       };
-      this.wallSource = this.buildingSelector.querySelector('[data-type=wall]');
-      this.buildingSelector.addEventListener('mousedown', (function(_this) {
-        return function(e) {
-          if (!_this.editMode || !e.target.classList.contains('building') || e.button !== 0) {
-            return;
-          }
-          return _this.selectBuilding(e.target);
-        };
-      })(this));
-      this.buildingSelector.addEventListener('mouseleave', (function(_this) {
-        return function(e) {
-          if (!_this.selected) {
-            return;
-          }
-          _this.addBuilding(_this.selected);
-          _this.grabOffset = {
-            left: _this.activeBuilding.size / 2,
-            top: _this.activeBuilding.size / 2
-          };
-          _this.positionBuilding(e.clientX, e.clientY);
-          _this.startDragging();
-          return _this.selected = false;
-        };
-      })(this));
       this.grid.addEventListener('mousedown', (function(_this) {
         return function(e) {
-          if (!_this.editMode || e.button !== 0) {
+          if (e.button !== 0) {
             return;
           }
           if (_this.wallMode && e.target === _this.grid) {
@@ -351,9 +415,8 @@
       document.body.addEventListener('mouseup', (function(_this) {
         return function(e) {
           if (_this.dragging) {
-            _this.stopDragging();
+            return _this.stopDragging();
           }
-          return _this.selected = false;
         };
       })(this));
       this.element.addEventListener('mousemove', (function(_this) {
@@ -369,10 +432,6 @@
         };
       })(this));
     }
-
-    BaseMap.prototype.toggleEditMode = function() {
-      return this.editMode = !this.editMode;
-    };
 
     BaseMap.prototype.toggleEraseMode = function() {
       this.grid.classList.toggle('erase-mode');
@@ -396,11 +455,17 @@
       return this.grid.classList.toggle('show-traps');
     };
 
-    BaseMap.prototype.selectBuilding = function(source) {
-      return this.selected = source;
+    BaseMap.prototype.newBuilding = function(source, x, y) {
+      this.addBuilding(source);
+      this.grabOffset = {
+        left: this.activeBuilding.size / 2,
+        top: this.activeBuilding.size / 2
+      };
+      this.positionBuilding(x, y);
+      return this.startDragging();
     };
 
-    BaseMap.prototype.addBuilding = function(source) {
+    BaseMap.prototype.addBuilding = function(source, x, y) {
       var el;
       el = document.createElement('span');
       el.innerHTML = "<span></span>";
@@ -411,37 +476,35 @@
       if (source.dataset.range > 0) {
         el.classList.add("range-" + source.dataset.range);
       }
-      source.dataset.count = parseInt(source.dataset.count, 10) - 1;
       el.dataset.index = this.buildings.length;
       this.grid.appendChild(el);
       this.activeBuilding = new Building(el);
-      return this.buildings.push(this.activeBuilding);
+      if ((x != null) && (y != null)) {
+        this.activeBuilding.move(x * BaseMap.snap, y * BaseMap.snap);
+      }
+      this.buildings.push(this.activeBuilding);
+      return this.trigger('add', this.activeBuilding.type);
     };
 
     BaseMap.prototype.removeBuilding = function(building) {
-      var b, i, source, _i, _j, _len, _len1, _ref, _ref1, _results;
+      var b, i, _i, _j, _len, _len1, _ref, _ref1;
       if (building == null) {
         building = this.activeBuilding;
       }
       this.grid.removeChild(building.element);
-      source = this.buildingSelector.querySelector("[data-type=" + building.type + "]");
-      source.dataset.count = parseInt(source.dataset.count, 10) + 1;
       _ref = this.buildings;
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         b = _ref[i];
-        if (!(b === building)) {
-          continue;
+        if (b === building) {
+          this.buildings.splice(i, 1);
         }
-        this.buildings.splice(i, 1);
-        break;
       }
       _ref1 = this.buildings;
-      _results = [];
       for (i = _j = 0, _len1 = _ref1.length; _j < _len1; i = ++_j) {
         b = _ref1[i];
-        _results.push(b.setIndex(i));
+        b.setIndex(i);
       }
-      return _results;
+      return this.trigger('remove', building.type);
     };
 
     BaseMap.prototype.addWall = function(x, y) {
@@ -591,22 +654,6 @@
       return _results;
     };
 
-    BaseMap.prototype.loadFromJSON = function(data) {
-      var b, item, _i, _len, _ref, _results;
-      if (data == null) {
-        return;
-      }
-      _ref = JSON.parse(data);
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        item = _ref[_i];
-        b = this.buildingSelector.querySelector("[data-type=" + item[0] + "]");
-        this.addBuilding(b);
-        _results.push(this.activeBuilding.move(item[1] * BaseMap.snap, item[2] * BaseMap.snap));
-      }
-      return _results;
-    };
-
     BaseMap.prototype.toJSON = function() {
       var b;
       return JSON.stringify((function() {
@@ -623,13 +670,28 @@
 
     return BaseMap;
 
-  })();
+  })(EventEmitter);
 
   buildingSelector = new BuildingSelector(document.querySelector('.selector'));
 
   buildingSelector.load(8);
 
-  baseMap = new BaseMap(document.querySelector('.map'));
+  baseMap = new BaseMap(document.querySelector('.map'), buildingSelector.buildingTypes.wall);
+
+  buildingSelector.on({
+    select: function(source, x, y) {
+      return baseMap.newBuilding(source, x, y);
+    }
+  });
+
+  baseMap.on({
+    add: function(type) {
+      return buildingSelector.remove(type);
+    },
+    remove: function(type) {
+      return buildingSelector.restore(type);
+    }
+  });
 
   document.querySelector('.toggle-isometric-mode').addEventListener('click', function() {
     return document.body.classList.toggle('isometric-mode');
@@ -676,7 +738,18 @@
   });
 
   document.querySelector('.load').addEventListener('click', function() {
-    return baseMap.loadFromJSON(window.localStorage.getItem('base'));
+    var data, item, type, x, y, _j, _len1, _ref1, _results;
+    if ((data = window.localStorage.getItem('base')) == null) {
+      return;
+    }
+    _ref1 = JSON.parse(data);
+    _results = [];
+    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+      item = _ref1[_j];
+      type = item[0], x = item[1], y = item[2];
+      _results.push(baseMap.addBuilding(buildingSelector.buildingTypes[type], x, y));
+    }
+    return _results;
   });
 
 }).call(this);
