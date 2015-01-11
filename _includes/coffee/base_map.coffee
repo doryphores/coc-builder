@@ -1,5 +1,5 @@
 class BaseMap extends EventEmitter
-  @snap: {{site.grid_square}}
+  @squareSize: {{site.square_size}}
 
   constructor: (@element, @wallSource) ->
     @grid = @element.querySelector('.grid')
@@ -47,26 +47,19 @@ class BaseMap extends EventEmitter
     @startDragging()
 
   addBuilding: (source) ->
-    el = document.createElement('span')
-    el.innerHTML = "<span></span>"
-    el.className = source.className
-    el.dataset.size = source.dataset.size
-    el.dataset.type = source.dataset.type
-    el.dataset.hidden = source.dataset.hidden
-    el.classList.add("range-#{source.dataset.range}") if source.dataset.range > 0
-    el.dataset.index = @buildings.length
-    @grid.appendChild(el)
-    @activeBuilding = new Building(el)
+    @activeBuilding = new Building(source.dataset)
+    @activeBuilding.setIndex(@buildings.length)
+    @activeBuilding.appendTo(@grid)
     @buildings.push(@activeBuilding)
     @trigger('add', @activeBuilding.type)
 
   placeBuilding: (source, x, y) ->
     @addBuilding(source)
-    @activeBuilding.move(x * BaseMap.snap, y * BaseMap.snap)
+    @activeBuilding.position(x * BaseMap.squareSize, y * BaseMap.squareSize)
 
   removeBuilding: (building=@activeBuilding) ->
     @grid.removeChild(building.element)
-    @buildings.splice(i, 1) for b, i in @buildings when b is building
+    @buildings.splice(building.index, 1)
     b.setIndex(i) for b, i in @buildings
 
     @trigger('remove', building.type)
@@ -74,14 +67,13 @@ class BaseMap extends EventEmitter
   addWall: (x, y) ->
     return if parseInt(@wallSource.dataset.count, 10) is 0
     {x, y} = @grid.convertPointFromNode({x: x, y: y}, document)
-    [x, y] = for v in [x, y]
-      Math.floor(v / BaseMap.snap) * BaseMap.snap
+    [x, y] = (Math.floor(v / BaseMap.squareSize) * BaseMap.squareSize for v in [x, y])
 
     for b in @buildings
       return if b.contains(x, y)
 
     @addBuilding(@wallSource)
-    @activeBuilding.move(x, y)
+    @activeBuilding.position(x, y)
 
   positionBuilding: (x, y) ->
     {x, y} = @grid.convertPointFromNode({x: x, y: y}, document)
@@ -89,16 +81,16 @@ class BaseMap extends EventEmitter
     x = x - @grabOffset.left
     y = y - @grabOffset.top
 
-    snapped = (Math.round(v / BaseMap.snap) * BaseMap.snap for v in [x, y])
+    snapped = (Math.round(v / BaseMap.squareSize) * BaseMap.squareSize for v in [x, y])
 
     if onMap = @onMap(snapped[0], snapped[1])
       [x, y] = snapped
 
-    @activeBuilding.move(x, y)
+    @activeBuilding.position(x, y)
     available = onMap && @positionAvailable()
     @activeBuilding.element.classList.toggle('notok', !available)
 
-  onMap: (x=@activeBuilding.x, y=@activeBuilding.y, size=@activeBuilding.size) ->
+  onMap: (x=@activeBuilding.left, y=@activeBuilding.top, size=@activeBuilding.size) ->
     (0 <= x <= @gridOffsets.width - size) && (0 <= y <= @gridOffsets.height - size)
 
   positionAvailable: ->
@@ -152,7 +144,7 @@ class BaseMap extends EventEmitter
     @removeBuilding(@buildings[0]) while @buildings.length
 
   toJSON: ->
-    JSON.stringify(([b.type, b.x/BaseMap.snap, b.y/BaseMap.snap] for b in @buildings))
+    JSON.stringify(([b.type, b.x, b.y] for b in @buildings))
 
   toggleEraseMode: ->
     @grid.classList.toggle('erase-mode')

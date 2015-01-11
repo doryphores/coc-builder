@@ -3,4 +3,5 @@ markdown: kramdown
 gems: [bourbon]
 exclude: [README.md, Gemfile, Gemfile.lock, Rakefile]
 
-grid_square: 25
+square_size: 25
+grid_squares: 40
