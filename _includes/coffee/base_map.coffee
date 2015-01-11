@@ -49,7 +49,7 @@ class BaseMap extends EventEmitter
     @activeBuilding.setIndex(@buildings.length)
     @activeBuilding.appendTo(@grid)
     @buildings.push(@activeBuilding)
-    @trigger('add', @activeBuilding.type)
+    @trigger('add_building', @activeBuilding.type)
 
   placeBuilding: (source, x, y) ->
     @addBuilding(source)
@@ -58,9 +58,11 @@ class BaseMap extends EventEmitter
   removeBuilding: (building=@activeBuilding) ->
     @grid.removeChild(building.element)
     @buildings.splice(building.index, 1)
+
+    # Reset building indexes
     b.setIndex(i) for b, i in @buildings
 
-    @trigger('remove', building.type)
+    @trigger('remove_building', building.type)
 
   addWall: (x, y) ->
     return if parseInt(@wallSource.dataset.count, 10) is 0

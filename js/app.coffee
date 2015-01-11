@@ -18,8 +18,8 @@ buildingSelector.on
   select: (source, x, y) -> baseMap.newBuilding(source, x, y)
 
 baseMap.on
-  add   : (type) -> buildingSelector.remove(type)
-  remove: (type) -> buildingSelector.restore(type)
+  add_building   : (type) -> buildingSelector.remove(type)
+  remove_building: (type) -> buildingSelector.restore(type)
 
 # Actions
 
