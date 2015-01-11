@@ -1,6 +1,7 @@
 ---
 ---
 
+{% include coffee/utils.coffee %}
 {% include coffee/event_emitter.coffee %}
 {% include coffee/building.coffee %}
 {% include coffee/building_selector.coffee %}
@@ -22,42 +23,42 @@ baseMap.on
 
 # Actions
 
-document.querySelector('.erase-all').addEventListener 'click', ->
-  baseMap.clear()
+addEvent '.erase-all', 'click', -> baseMap.clear()
 
 # Toggles
 
 for toggle in document.querySelectorAll('.toggle')
-  toggle.addEventListener 'click', -> this.classList.toggle('on')
+  addEvent(toggle, 'click', -> this.classList.toggle('on'))
 
-document.querySelector('.toggle-isometric-mode').addEventListener 'click', ->
+addEvent '.toggle-isometric-mode', 'click', ->
   document.body.classList.toggle('isometric-mode')
 
-document.querySelector('.toggle-erase-mode').addEventListener 'click', ->
+addEvent '.toggle-erase-mode', 'click', ->
   baseMap.toggleEraseMode()
 
-document.querySelector('.toggle-wall-mode').addEventListener 'click', ->
+addEvent '.toggle-wall-mode', 'click', ->
   baseMap.toggleWallMode()
 
-document.querySelector('.toggle-perimeter').addEventListener 'click', ->
+addEvent '.toggle-perimeter', 'click', ->
   baseMap.togglePerimeter()
 
-document.querySelector('.toggle-range').addEventListener 'click', ->
+addEvent '.toggle-range', 'click', ->
   baseMap.toggleRange()
 
-document.querySelector('.toggle-traps').addEventListener 'click', ->
+addEvent '.toggle-traps', 'click', ->
   baseMap.toggleTraps()
 
-document.querySelector('.toggle-panel').addEventListener 'click', ->
+addEvent '.toggle-panel', 'click', ->
   document.querySelector('.panel').classList.toggle('open')
 
 # Saving and loading maps
 
-document.querySelector('.save').addEventListener 'click', ->
+addEvent '.save', 'click', ->
   window.localStorage.setItem('base', baseMap.toJSON())
 
-document.querySelector('.load').addEventListener 'click', ->
+addEvent '.load', 'click', ->
   return unless (data = window.localStorage.getItem('base'))?
+  baseMap.clear()
   for item in JSON.parse(data)
     [type, x, y] = item
     baseMap.placeBuilding(buildingSelector.buildingTypes[type], x, y)

@@ -8,17 +8,18 @@ class BuildingSelector extends EventEmitter
 
     @selectedBuilding = false
 
-    @element.addEventListener 'mousedown', (e) =>
-      return if !e.target.classList.contains('building') or e.button isnt 0
-      @selectedBuilding = e.target
+    addEvent @element,
+      mousedown: (e) =>
+        return if !e.target.classList.contains('building') or e.button isnt 0
+        @selectedBuilding = e.target
 
-    @element.addEventListener 'mouseleave', (e) =>
-      return unless @selectedBuilding
-      @trigger('select', @selectedBuilding, e.clientX, e.clientY)
-      @selectedBuilding = false
+      mouseleave: (e) =>
+        return unless @selectedBuilding
+        @trigger('select', @selectedBuilding, e.clientX, e.clientY)
+        @selectedBuilding = false
 
-    @element.addEventListener 'mouseup', (e) =>
-      @selectedBuilding = false
+      mouseup: (e) =>
+        @selectedBuilding = false
 
   remove: (type) ->
     @buildingTypes[type].dataset.count = parseInt(@buildingTypes[type].dataset.count, 10) - 1

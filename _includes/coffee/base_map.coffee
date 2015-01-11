@@ -8,11 +8,9 @@ class BaseMap extends EventEmitter
     @gridOffsets = @offset(@grid)
     @eraseMode = false
     @wallMode = false
-    @grabOffset =
-      top : 0
-      left: 0
+    @grabOffset = {top: 0, left: 0}
 
-    @grid.addEventListener 'mousedown', (e) =>
+    addEvent @grid, 'mousedown', (e) =>
       return if e.button isnt 0
       if @wallMode and e.target is @grid
         @addWall(e.clientX, e.clientY)
@@ -28,10 +26,10 @@ class BaseMap extends EventEmitter
         @positionBuilding(e.clientX, e.clientY)
         @startDragging()
 
-    document.body.addEventListener 'mouseup', (e) =>
+    addEvent document.body, 'mouseup', (e) =>
       @stopDragging() if @dragging
 
-    @element.addEventListener 'mousemove', (e) =>
+    addEvent @element, 'mousemove', (e) =>
       return unless @dragging
       if @wallMode
         @addWall(e.clientX, e.clientY)
