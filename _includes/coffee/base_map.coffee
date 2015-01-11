@@ -38,23 +38,6 @@ class BaseMap extends EventEmitter
       else
         @positionBuilding(e.clientX, e.clientY)
 
-  toggleEraseMode: ->
-    @grid.classList.toggle('erase-mode')
-    @eraseMode = !@eraseMode
-
-  toggleWallMode: ->
-    @grid.classList.toggle('wall-mode')
-    @wallMode = !@wallMode
-
-  togglePerimeter: ->
-    @grid.classList.toggle('show-perimeter')
-
-  toggleRange: ->
-    @grid.classList.toggle('show-range')
-
-  toggleTraps: ->
-    @grid.classList.toggle('show-traps')
-
   newBuilding: (source, x, y) ->
     @addBuilding(source)
     @grabOffset =
@@ -63,7 +46,7 @@ class BaseMap extends EventEmitter
     @positionBuilding(x, y)
     @startDragging()
 
-  addBuilding: (source, x, y) ->
+  addBuilding: (source) ->
     el = document.createElement('span')
     el.innerHTML = "<span></span>"
     el.className = source.className
@@ -74,9 +57,12 @@ class BaseMap extends EventEmitter
     el.dataset.index = @buildings.length
     @grid.appendChild(el)
     @activeBuilding = new Building(el)
-    @activeBuilding.move(x * BaseMap.snap, y * BaseMap.snap) if x? and y?
     @buildings.push(@activeBuilding)
     @trigger('add', @activeBuilding.type)
+
+  placeBuilding: (source, x, y) ->
+    @addBuilding(source)
+    @activeBuilding.move(x * BaseMap.snap, y * BaseMap.snap)
 
   removeBuilding: (building=@activeBuilding) ->
     @grid.removeChild(building.element)
@@ -103,8 +89,7 @@ class BaseMap extends EventEmitter
     x = x - @grabOffset.left
     y = y - @grabOffset.top
 
-    snapped = for v in [x, y]
-      Math.round(v / BaseMap.snap) * BaseMap.snap
+    snapped = (Math.round(v / BaseMap.snap) * BaseMap.snap for v in [x, y])
 
     if onMap = @onMap(snapped[0], snapped[1])
       [x, y] = snapped
@@ -168,3 +153,20 @@ class BaseMap extends EventEmitter
 
   toJSON: ->
     JSON.stringify(([b.type, b.x/BaseMap.snap, b.y/BaseMap.snap] for b in @buildings))
+
+  toggleEraseMode: ->
+    @grid.classList.toggle('erase-mode')
+    @eraseMode = !@eraseMode
+
+  toggleWallMode: ->
+    @grid.classList.toggle('wall-mode')
+    @wallMode = !@wallMode
+
+  togglePerimeter: ->
+    @grid.classList.toggle('show-perimeter')
+
+  toggleRange: ->
+    @grid.classList.toggle('show-range')
+
+  toggleTraps: ->
+    @grid.classList.toggle('show-traps')
