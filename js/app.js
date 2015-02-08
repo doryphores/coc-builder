@@ -1,8 +1,27 @@
 (function() {
-  var BUILDINGS, BaseMap, Building, BuildingSelector, EventEmitter, LEVELS, baseMap, buildingSelector, toggle, _i, _len, _ref,
+  var BUILDINGS, BaseMap, Building, BuildingSelector, EventEmitter, LEVELS, addEvent, baseMap, buildingSelector, toggle, _i, _len, _ref,
     __slice = [].slice,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  addEvent = function() {
+    var args, element, events, handler, name, _results;
+    element = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+    if (args.length === 2) {
+      (events = {})[args[0]] = args[1];
+    } else {
+      events = args[0];
+    }
+    if (typeof element === 'string') {
+      element = document.querySelector(element);
+    }
+    _results = [];
+    for (name in events) {
+      handler = events[name];
+      _results.push(element.addEventListener(name, handler, false));
+    }
+    return _results;
+  };
 
   EventEmitter = (function() {
     function EventEmitter() {}
@@ -55,16 +74,30 @@
   })();
 
   Building = (function() {
-    function Building(element, x, y) {
-      this.element = element;
+    function Building(data, x, y) {
       this.x = x != null ? x : 0;
       this.y = y != null ? y : 0;
-      this.size = parseInt(this.element.dataset.size, 10) * BaseMap.snap;
-      this.type = this.element.dataset.type;
+      this.element = document.createElement('span');
+      this.element.innerHTML = "<span></span>";
+      this.element.dataset.size = data.size;
+      this.element.dataset.type = this.type = data.type;
+      this.element.dataset.hidden = data.hidden;
+      this.element.className = 'building';
+      if (data.range > 0) {
+        this.element.classList.add("range-" + data.range);
+      }
+      this.size = parseInt(data.size, 10);
+      this.pixelSize = this.size * BaseMap.squareSize;
+      this.position(this.x * BaseMap.squareSize, this.y * BaseMap.squareSize);
     }
 
+    Building.prototype.appendTo = function(element) {
+      return element.appendChild(this.element);
+    };
+
     Building.prototype.setIndex = function(index) {
-      return this.element.dataset.index = index;
+      this.index = index;
+      return this.element.dataset.index = this.index;
     };
 
     Building.prototype.pickup = function() {
@@ -75,19 +108,35 @@
       return this.element.classList.remove('is-dragging', 'notok');
     };
 
-    Building.prototype.move = function(x, y) {
-      this.x = x;
-      this.y = y;
-      this.element.style.left = x + 'px';
-      return this.element.style.top = y + 'px';
+    Building.prototype.position = function(left, top) {
+      var prop, _i, _len, _ref;
+      this.left = left;
+      this.top = top;
+      _ref = ['left', 'top'];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        prop = _ref[_i];
+        this.element.style[prop] = "" + this[prop] + "px";
+      }
+      this.x = this.left / BaseMap.squareSize;
+      return this.y = this.top / BaseMap.squareSize;
+    };
+
+    Building.prototype.getCenter = function() {
+      var c;
+      c = Math.round(this.size * BaseMap.squareSize / 2);
+      return {
+        top: c,
+        left: c
+      };
     };
 
     Building.prototype.overlaps = function(building) {
-      return this.x < building.x + building.size && this.x + this.size > building.x && this.y < building.y + building.size && this.size + this.y > building.y;
+      var _ref, _ref1;
+      return ((building.x - this.size < (_ref = this.x) && _ref < building.x + building.size)) && ((building.y - this.size < (_ref1 = this.y) && _ref1 < building.y + building.size));
     };
 
-    Building.prototype.contains = function(x, y) {
-      return ((this.x + this.size > x && x >= this.x)) && ((this.y + this.size > y && y >= this.y));
+    Building.prototype.contains = function(left, top) {
+      return ((this.left <= left && left < this.left + this.pixelSize)) && ((this.top <= top && top < this.top + this.pixelSize));
     };
 
     return Building;
@@ -306,28 +355,30 @@
       this.list = this.element.querySelector('ul');
       this.buildingTypes = {};
       this.selectedBuilding = false;
-      this.element.addEventListener('mousedown', (function(_this) {
-        return function(e) {
-          if (!e.target.classList.contains('building') || e.button !== 0) {
-            return;
-          }
-          return _this.selectedBuilding = e.target;
-        };
-      })(this));
-      this.element.addEventListener('mouseleave', (function(_this) {
-        return function(e) {
-          if (!_this.selectedBuilding) {
-            return;
-          }
-          _this.trigger('select', _this.selectedBuilding, e.clientX, e.clientY);
-          return _this.selectedBuilding = false;
-        };
-      })(this));
-      this.element.addEventListener('mouseup', (function(_this) {
-        return function(e) {
-          return _this.selectedBuilding = false;
-        };
-      })(this));
+      addEvent(this.element, {
+        mousedown: (function(_this) {
+          return function(e) {
+            if (!e.target.classList.contains('building') || e.button !== 0) {
+              return;
+            }
+            return _this.selectedBuilding = e.target;
+          };
+        })(this),
+        mouseleave: (function(_this) {
+          return function(e) {
+            if (!_this.selectedBuilding) {
+              return;
+            }
+            _this.trigger('select', _this.selectedBuilding, e.clientX, e.clientY);
+            return _this.selectedBuilding = false;
+          };
+        })(this),
+        mouseup: (function(_this) {
+          return function(e) {
+            return _this.selectedBuilding = false;
+          };
+        })(this)
+      });
     }
 
     BuildingSelector.prototype.remove = function(type) {
@@ -374,7 +425,7 @@
   BaseMap = (function(_super) {
     __extends(BaseMap, _super);
 
-    BaseMap.snap = 25;
+    BaseMap.squareSize = 25;
 
     function BaseMap(element, wallSource) {
       this.element = element;
@@ -385,11 +436,8 @@
       this.gridOffsets = this.offset(this.grid);
       this.eraseMode = false;
       this.wallMode = false;
-      this.grabOffset = {
-        top: 0,
-        left: 0
-      };
-      this.grid.addEventListener('mousedown', (function(_this) {
+      this.grabOffset = false;
+      addEvent(this.grid, 'mousedown', (function(_this) {
         return function(e) {
           if (e.button !== 0) {
             return;
@@ -412,14 +460,14 @@
           }
         };
       })(this));
-      document.body.addEventListener('mouseup', (function(_this) {
+      addEvent(document.body, 'mouseup', (function(_this) {
         return function(e) {
           if (_this.dragging) {
             return _this.stopDragging();
           }
         };
       })(this));
-      this.element.addEventListener('mousemove', (function(_this) {
+      addEvent(this.element, 'mousemove', (function(_this) {
         return function(e) {
           if (!_this.dragging) {
             return;
@@ -433,78 +481,38 @@
       })(this));
     }
 
-    BaseMap.prototype.toggleEraseMode = function() {
-      this.grid.classList.toggle('erase-mode');
-      return this.eraseMode = !this.eraseMode;
-    };
-
-    BaseMap.prototype.toggleWallMode = function() {
-      this.grid.classList.toggle('wall-mode');
-      return this.wallMode = !this.wallMode;
-    };
-
-    BaseMap.prototype.togglePerimeter = function() {
-      return this.grid.classList.toggle('show-perimeter');
-    };
-
-    BaseMap.prototype.toggleRange = function() {
-      return this.grid.classList.toggle('show-range');
-    };
-
-    BaseMap.prototype.toggleTraps = function() {
-      return this.grid.classList.toggle('show-traps');
-    };
-
     BaseMap.prototype.newBuilding = function(source, x, y) {
       this.addBuilding(source);
-      this.grabOffset = {
-        left: this.activeBuilding.size / 2,
-        top: this.activeBuilding.size / 2
-      };
       this.positionBuilding(x, y);
       return this.startDragging();
     };
 
-    BaseMap.prototype.addBuilding = function(source, x, y) {
-      var el;
-      el = document.createElement('span');
-      el.innerHTML = "<span></span>";
-      el.className = source.className;
-      el.dataset.size = source.dataset.size;
-      el.dataset.type = source.dataset.type;
-      el.dataset.hidden = source.dataset.hidden;
-      if (source.dataset.range > 0) {
-        el.classList.add("range-" + source.dataset.range);
-      }
-      el.dataset.index = this.buildings.length;
-      this.grid.appendChild(el);
-      this.activeBuilding = new Building(el);
-      if ((x != null) && (y != null)) {
-        this.activeBuilding.move(x * BaseMap.snap, y * BaseMap.snap);
-      }
+    BaseMap.prototype.addBuilding = function(source) {
+      this.activeBuilding = new Building(source.dataset);
+      this.activeBuilding.setIndex(this.buildings.length);
+      this.activeBuilding.appendTo(this.grid);
       this.buildings.push(this.activeBuilding);
-      return this.trigger('add', this.activeBuilding.type);
+      return this.trigger('add_building', this.activeBuilding.type);
+    };
+
+    BaseMap.prototype.placeBuilding = function(source, x, y) {
+      this.addBuilding(source);
+      return this.activeBuilding.position(x * BaseMap.squareSize, y * BaseMap.squareSize);
     };
 
     BaseMap.prototype.removeBuilding = function(building) {
-      var b, i, _i, _j, _len, _len1, _ref, _ref1;
+      var b, i, _i, _len, _ref;
       if (building == null) {
         building = this.activeBuilding;
       }
       this.grid.removeChild(building.element);
+      this.buildings.splice(building.index, 1);
       _ref = this.buildings;
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         b = _ref[i];
-        if (b === building) {
-          this.buildings.splice(i, 1);
-        }
-      }
-      _ref1 = this.buildings;
-      for (i = _j = 0, _len1 = _ref1.length; _j < _len1; i = ++_j) {
-        b = _ref1[i];
         b.setIndex(i);
       }
-      return this.trigger('remove', building.type);
+      return this.trigger('remove_building', building.type);
     };
 
     BaseMap.prototype.addWall = function(x, y) {
@@ -522,7 +530,7 @@
         _results = [];
         for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
           v = _ref1[_i];
-          _results.push(Math.floor(v / BaseMap.snap) * BaseMap.snap);
+          _results.push(Math.floor(v / BaseMap.squareSize) * BaseMap.squareSize);
         }
         return _results;
       })(), x = _ref1[0], y = _ref1[1];
@@ -534,7 +542,7 @@
         }
       }
       this.addBuilding(this.wallSource);
-      return this.activeBuilding.move(x, y);
+      return this.activeBuilding.position(x, y);
     };
 
     BaseMap.prototype.positionBuilding = function(x, y) {
@@ -543,6 +551,7 @@
         x: x,
         y: y
       }, document), x = _ref.x, y = _ref.y;
+      this.grabOffset = this.grabOffset || this.activeBuilding.getCenter();
       x = x - this.grabOffset.left;
       y = y - this.grabOffset.top;
       snapped = (function() {
@@ -551,27 +560,27 @@
         _results = [];
         for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
           v = _ref1[_i];
-          _results.push(Math.round(v / BaseMap.snap) * BaseMap.snap);
+          _results.push(Math.round(v / BaseMap.squareSize) * BaseMap.squareSize);
         }
         return _results;
       })();
       if (onMap = this.onMap(snapped[0], snapped[1])) {
         x = snapped[0], y = snapped[1];
       }
-      this.activeBuilding.move(x, y);
+      this.activeBuilding.position(x, y);
       available = onMap && this.positionAvailable();
       return this.activeBuilding.element.classList.toggle('notok', !available);
     };
 
     BaseMap.prototype.onMap = function(x, y, size) {
       if (x == null) {
-        x = this.activeBuilding.x;
+        x = this.activeBuilding.left;
       }
       if (y == null) {
-        y = this.activeBuilding.y;
+        y = this.activeBuilding.top;
       }
       if (size == null) {
-        size = this.activeBuilding.size;
+        size = this.activeBuilding.pixelSize;
       }
       return ((0 <= x && x <= this.gridOffsets.width - size)) && ((0 <= y && y <= this.gridOffsets.height - size));
     };
@@ -610,10 +619,7 @@
         this.removeBuilding();
       }
       this.activeBuilding = null;
-      return this.grabOffset = {
-        left: 0,
-        top: 0
-      };
+      return this.grabOffset = false;
     };
 
     BaseMap.prototype.setGrabOffset = function(e) {
@@ -662,10 +668,32 @@
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           b = _ref[_i];
-          _results.push([b.type, b.x / BaseMap.snap, b.y / BaseMap.snap]);
+          _results.push([b.type, b.x, b.y]);
         }
         return _results;
       }).call(this));
+    };
+
+    BaseMap.prototype.toggleEraseMode = function() {
+      this.grid.classList.toggle('erase-mode');
+      return this.eraseMode = !this.eraseMode;
+    };
+
+    BaseMap.prototype.toggleWallMode = function() {
+      this.grid.classList.toggle('wall-mode');
+      return this.wallMode = !this.wallMode;
+    };
+
+    BaseMap.prototype.togglePerimeter = function() {
+      return this.grid.classList.toggle('show-perimeter');
+    };
+
+    BaseMap.prototype.toggleRange = function() {
+      return this.grid.classList.toggle('show-range');
+    };
+
+    BaseMap.prototype.toggleTraps = function() {
+      return this.grid.classList.toggle('show-traps');
     };
 
     return BaseMap;
@@ -685,69 +713,70 @@
   });
 
   baseMap.on({
-    add: function(type) {
+    add_building: function(type) {
       return buildingSelector.remove(type);
     },
-    remove: function(type) {
+    remove_building: function(type) {
       return buildingSelector.restore(type);
     }
   });
 
-  document.querySelector('.toggle-isometric-mode').addEventListener('click', function() {
-    return document.body.classList.toggle('isometric-mode');
+  addEvent('.erase-all', 'click', function() {
+    return baseMap.clear();
   });
 
   _ref = document.querySelectorAll('.toggle');
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     toggle = _ref[_i];
-    toggle.addEventListener('click', function() {
+    addEvent(toggle, 'click', function() {
       return this.classList.toggle('on');
     });
   }
 
-  document.querySelector('.toggle-erase-mode').addEventListener('click', function() {
+  addEvent('.toggle-isometric-mode', 'click', function() {
+    return document.body.classList.toggle('isometric-mode');
+  });
+
+  addEvent('.toggle-erase-mode', 'click', function() {
     return baseMap.toggleEraseMode();
   });
 
-  document.querySelector('.toggle-wall-mode').addEventListener('click', function() {
+  addEvent('.toggle-wall-mode', 'click', function() {
     return baseMap.toggleWallMode();
   });
 
-  document.querySelector('.toggle-perimeter').addEventListener('click', function() {
+  addEvent('.toggle-perimeter', 'click', function() {
     return baseMap.togglePerimeter();
   });
 
-  document.querySelector('.toggle-range').addEventListener('click', function() {
+  addEvent('.toggle-range', 'click', function() {
     return baseMap.toggleRange();
   });
 
-  document.querySelector('.toggle-traps').addEventListener('click', function() {
+  addEvent('.toggle-traps', 'click', function() {
     return baseMap.toggleTraps();
   });
 
-  document.querySelector('.erase-all').addEventListener('click', function() {
-    return baseMap.clear();
-  });
-
-  document.querySelector('.toggle-panel').addEventListener('click', function() {
+  addEvent('.toggle-panel', 'click', function() {
     return document.querySelector('.panel').classList.toggle('open');
   });
 
-  document.querySelector('.save').addEventListener('click', function() {
+  addEvent('.save', 'click', function() {
     return window.localStorage.setItem('base', baseMap.toJSON());
   });
 
-  document.querySelector('.load').addEventListener('click', function() {
+  addEvent('.load', 'click', function() {
     var data, item, type, x, y, _j, _len1, _ref1, _results;
     if ((data = window.localStorage.getItem('base')) == null) {
       return;
     }
+    baseMap.clear();
     _ref1 = JSON.parse(data);
     _results = [];
     for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
       item = _ref1[_j];
       type = item[0], x = item[1], y = item[2];
-      _results.push(baseMap.addBuilding(buildingSelector.buildingTypes[type], x, y));
+      _results.push(baseMap.placeBuilding(buildingSelector.buildingTypes[type], x, y));
     }
     return _results;
   });
